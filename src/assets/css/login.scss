@@ -1,0 +1,73 @@
+.login .el-header {
+    text-align: center;
+    height: 101px !important;
+}
+
+.login .header-first{
+    padding-top: 30px;
+    text-align: right;
+    padding-right: 200px;
+}
+.login .header-second {
+    padding-top:40px;
+    text-align: left;
+}
+.login .header-first {
+    text-align:center; font-size:12px; color:#999999;
+}
+
+.login .main-class {
+    background:  rgb(188, 224, 255);
+}
+
+.login .el-main {
+    background: url("../img/login-brand.png") center 0px  no-repeat;
+    color: #333;
+    margin-left: 150px;
+    margin-right: 150px;
+    text-align: center;
+    height: 580px !important;
+    flex: none !important;
+}
+.login .login-aside {
+    position: absolute;
+    width: 320px;
+    height: 380px;
+    z-index: 9999999;
+    border-radius: 5px;
+    left: 58%;
+    top: 169px;
+
+}
+.login .o-box-up {
+    background-color: #000;
+    opacity: 0.4;
+
+}
+.login .o-box-up, .login .o-box-down {
+    width: 320px;
+    height: 380px;
+    position: absolute;
+    border-radius: 5px;
+}
+.o-box-down {
+    padding: 30px 0 0 40px;
+}
+.login .el-form {
+    width: 75%;
+}
+.login .el-input {
+    margin-bottom: 17px;
+}
+.login .login-title-class {
+    font-family: 楷体;
+    color: blue;
+    font-size: 31px;
+    text-align: center;
+    padding-bottom: 16px;
+    margin-left: -81px;
+}
+.login .login-button-class {
+    width:100%;
+    background-color: #ff720f !important;
+}

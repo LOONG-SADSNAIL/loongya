@@ -1,0 +1,13 @@
+.main-header-right-class {
+    text-align: right;
+}
+.main-header-right-class .el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+}
+.main-header-right-class .el-icon-arrow-down {
+    font-size: 12px;
+}
+.main-header-right-class .svg-icon[data-v-c8a70580]{
+    font-size: 35px;
+}

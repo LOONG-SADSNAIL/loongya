@@ -1,0 +1,81 @@
+.home {
+    height: 100%;
+}
+
+
+.home .el-header {
+    height: 8% !important;
+    padding:0 !important;
+    z-index: 99999;
+}
+.home .header_f {
+    height: 50%;
+    text-align: left;
+    margin-left: 7px;
+}
+.home .header_s {
+    height: 50%;
+    text-align: left;
+    margin-left: 7px;
+}
+
+
+
+.home .el-aside {
+    background-color: #2f4050;
+    color: #DFE4ED;
+    height: 100%;
+    text-align: left;
+    z-index: 999999;
+}
+
+.home .aside-f {
+    font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    height: 158px;
+    text-align: left;
+    background: url("../img/patterns/header-profile.png");
+}
+.home .aside-f .aside-f-conent{
+    position: absolute;
+    top: 20px;
+    line-height: 26px;
+    left: 30px;
+    width: 90px;
+}
+.home .aside-f-two {
+    font-family: "宋体","open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    height: 60px;
+    text-align: left;
+    background: url("../img/patterns/header-profile.png");
+}
+.home .aside-f-two .aside-f-conent-two{
+    position: relative;
+    top: 19px;
+    line-height: 20px;
+    left: 15px;
+    width: 50px;
+}
+.home .aside-f-two .el-dropdown-link {
+    color: #f2f6fc ;
+    font-size: 30px;
+}
+
+.home .aside-f .aside-f-1 {
+    width: 64px;
+    height: 64px;
+}
+.home .aside-f .aside-f-2 {
+    color: #DFE4ED;
+}
+.home .aside-f .aside-f-3 {
+    color: #8095a8;
+}
+
+.home .el-main {
+    background-color: #E9EEF3;
+    color: #333;
+    text-align: center;
+    line-height: 160px;
+}
+
