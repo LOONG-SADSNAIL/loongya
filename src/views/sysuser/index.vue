@@ -11,22 +11,7 @@
         <div class="main-content-class">
           <el-row class="sysuser-row">
             <el-col :span="4">
-              <div class="sysuser-div-one">
-                <div class="sysuser-one-heading">
-                  组织机构
-                </div>
-                <div class="sysuser-one-tree">
-                  <el-tree :data="data"
-                           :props="defaultProps"
-                           default-expand-all
-                           highlight-current
-                           node-key="id"
-                           :current-node-key="currentId"
-                           accordion
-                           :indent="indent"
-                           @node-click="handleNodeClick"></el-tree>
-                </div>
-              </div>
+              <DeptTreeList/>
             </el-col>
             <el-col :span="20">
               <div class="sysuser-div-two">
@@ -42,44 +27,16 @@
 
 <script>
 import list from './components/list'
+import DeptTreeList from './components/deptTreeList'
 export default {
   name: 'Sysuser',
   components: {
-    list
+    list,
+    DeptTreeList
   },
   data () {
     return {
-      loading: false,
-      indent: 30,
-      currentId: 0,
-      data: [{
-        id: -1,
-        name: '顶级',
-        children: [{
-          id: 0,
-          name: '总公司',
-          children: [{
-            id: 1,
-            name: '产品研发部'
-          }, {
-            id: 2,
-            name: '运营部'
-          }, {
-            id: 3,
-            name: '市场部'
-          }, {
-            id: 4,
-            name: '综合管理部'
-          }, {
-            id: 5,
-            name: '人事部'
-          }]
-        }]
-      }],
-      defaultProps: {
-        children: 'children',
-        label: 'name'
-      }
+      loading: false
     }
   },
   created () {
@@ -87,9 +44,7 @@ export default {
   computed: {
   },
   methods: {
-    handleNodeClick (data) {
-      console.log(data)
-    }
+
   }
 }
 </script>
@@ -140,32 +95,4 @@ export default {
       height: 100%;
       width: 100%;
   }
-  .sysuser .sysuser-row .sysuser-div-one{
-    min-height: 200px;
-    width:100%;
-    margin-bottom: 20px;
-    background-color: #fff;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
-    box-shadow: 0 1px 1px rgba(0,0,0,.05);
-  }
-  .sysuser .sysuser-row .sysuser-one-heading{
-    color: #333;
-    background-color: #f5f5f5;
-    border-color: #ddd;
-    padding: 10px 15px;
-    border-bottom: 1px solid transparent;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 13px;
-  }
-
-  .sysuser .sysuser-row .sysuser-one-tree{
-    font-size: 13px;
-    padding: 10px;
-    z-index: 999999;
-  }
-
 </style>

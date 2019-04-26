@@ -2,14 +2,14 @@ import request from '../../plugins/axios'
 
 export function list (data) {
   return request({
-    url: '/sysdept/list.json',
+    url: '/sysDept/list.json',
     data: data
   })
 }
 
-export function treelist (data) {
+export function treeList (data) {
   return request({
-    url: '/sysdept/treelist.json',
+    url: '/sysDept/treeList.json',
     data: data
   })
 }
