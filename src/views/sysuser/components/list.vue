@@ -1,107 +1,119 @@
 <template>
-  <div class="sysUserList">
-    <el-row>
-      <!--==================================列表查询===========start===================================== -->
-      <el-col :span="20">
-        <el-form :inline="true" :model="formInline" class="demo-form-inline">
-          <el-form-item>
-            <el-input v-model="formInline.username" placeholder="请输入用户姓名"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="onSubmit">查询</el-button>
-          </el-form-item>
-        </el-form>
+  <div class="main-content-class">
+    <el-row class="sysuser-row">
+      <el-col :span="4">
+        <DeptTreeList
+          @getDeptId="getDeptId"
+        />
       </el-col>
-      <!--==================================列表查询===========end===================================== -->
-      <!--==================================列表头部选择器===========start===================================== -->
-      <el-col class="main-header-right-class" :span="4">
-        <el-dropdown
-          :hide-on-click="false"
-          @visible-change="visibleChangeClick"
-          >
+      <el-col :span="20">
+        <div class="sysuser-div-two">
+          <div class="sysUserList">
+            <el-row>
+              <!--==================================列表查询===========start===================================== -->
+              <el-col :span="20">
+                <el-form :inline="true" :model="formInline" class="demo-form-inline">
+                  <el-form-item>
+                    <el-input v-model="formInline.username" placeholder="请输入用户姓名"></el-input>
+                  </el-form-item>
+                  <el-form-item>
+                    <el-button type="primary" @click="onSubmit">查询</el-button>
+                  </el-form-item>
+                </el-form>
+              </el-col>
+              <!--==================================列表查询===========end===================================== -->
+              <!--==================================列表头部选择器===========start===================================== -->
+              <el-col class="main-header-right-class" :span="4">
+                <el-dropdown
+                  :hide-on-click="false"
+                  @visible-change="visibleChangeClick"
+                >
           <span class="el-dropdown-link">
             <svg-icon icon-class="tablemenu"/>
           </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-checkbox-group v-model="checkList">
-              <el-dropdown-item  v-for="item in tableHeader" :key="item.prop">
-                <el-checkbox :label="item.label"></el-checkbox>
-              </el-dropdown-item>
-            </el-checkbox-group>
-          </el-dropdown-menu>
-        </el-dropdown>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-checkbox-group v-model="checkList">
+                      <el-dropdown-item  v-for="item in tableHeader" :key="item.prop">
+                        <el-checkbox :label="item.label"></el-checkbox>
+                      </el-dropdown-item>
+                    </el-checkbox-group>
+                  </el-dropdown-menu>
+                </el-dropdown>
+              </el-col>
+            </el-row>
+            <!--==================================列表头部选择器===========end===================================== -->
+            <!-- ============================列表start===========================================-->
+            <el-table
+              v-loading="loading"
+              element-loading-text="拼命加载中"
+              element-loading-spinner="el-icon-loading"
+              element-loading-background="rgba(0, 0, 0, 0.8)"
+              border
+              fit
+              :row-class-name="tableRowClassName"
+              ref="singleTable"
+              :data="tableData"
+              @sort-change="sortChange"
+              :default-sort = "{prop: 'createTime', order: 'descending'}"
+              style="width: 100%">
+              <el-table-column
+                class="edit-class"
+                width="80"
+                fixed="left"
+                align="center">
+                <template slot="header">
+                  操作
+                </template>
+                <template slot-scope="scope">
+                  <sysUserEdit
+                    :id="scope.row.id"
+                  />
+                </template>
+              </el-table-column>
+              <el-table-column
+                type="index"
+                sortable
+                show-overflow-tooltip
+                resizable
+              />
+              <el-table-column
+                v-for="header in showTableHeader"
+                :key="header.prop"
+                :prop="header.prop"
+                sortable
+                resizable
+                show-overflow-tooltip
+                :label="header.label"
+              />
+            </el-table>
+            <!-- ============================列表 end===========================================-->
+            <!-- ============================分页 start===========================================-->
+            <el-pagination
+              class="page-class"
+              @size-change="pageHandleSizeChange"
+              @current-change="pageHandleCurrentChange"
+              :current-page="formInline.page"
+              :page-size="formInline.rows"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="formInline.total">
+            </el-pagination>
+            <!-- ============================分页 end===========================================-->
+          </div>
+        </div>
       </el-col>
     </el-row>
-    <!--==================================列表头部选择器===========end===================================== -->
-    <!-- ============================列表start===========================================-->
-    <el-table
-      v-loading="loading"
-      element-loading-text="拼命加载中"
-      element-loading-spinner="el-icon-loading"
-      element-loading-background="rgba(0, 0, 0, 0.8)"
-      border
-      fit
-      :row-class-name="tableRowClassName"
-      ref="singleTable"
-      :data="tableData"
-      @sort-change="sortChange"
-      :default-sort = "{prop: 'createTime', order: 'descending'}"
-      style="width: 100%">
-
-      <el-table-column
-        type="index"
-        sortable
-        show-overflow-tooltip
-        resizable
-      />
-        <el-table-column
-          v-for="header in showTableHeader"
-          :key="header.prop"
-          :prop="header.prop"
-          sortable
-          resizable
-          show-overflow-tooltip
-          :label="header.label"
-        />
-      <el-table-column
-        width="200"
-        fixed="right"
-        align="center">
-        <template slot="header">
-          操作
-        </template>
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <!-- ============================列表 end===========================================-->
-    <!-- ============================分页 start===========================================-->
-    <el-pagination
-      class="page-class"
-    @size-change="pageHandleSizeChange"
-    @current-change="pageHandleCurrentChange"
-    :current-page="formInline.page"
-    :page-size="formInline.rows"
-    layout="total, sizes, prev, pager, next, jumper"
-    :total="formInline.total">
-  </el-pagination>
-    <!-- ============================分页 end===========================================-->
   </div>
 </template>
 
 <script>
 import { list } from '@/api/system/sysuser'
-import '@/assets/css/appmain.css'
+import DeptTreeList from './deptTreeList'
+import SysUserEdit from './sysUserEidt'
 export default {
   name: 'SysUserList',
   components: {
+    DeptTreeList,
+    SysUserEdit
   },
   data () {
     return {
@@ -110,10 +122,10 @@ export default {
         username: '',
         rows: 10,
         page: 1,
-        orderby: '',
+        orderby: 'create_time',
         asc: 'descending',
         total: 0,
-        deptId: 24
+        deptId: 1
       },
       loading: false,
       showTableHeader: [{}], // 列表头部实际显示数据
@@ -138,16 +150,13 @@ export default {
           this.tableHeader = res.data.tableHeader
           this.tableData = res.data.tableData
           this.formInline.total = parseInt(res.data.total)
-          console.log(this.tableHeader)
           this.handleShowHeader()
         }
       })
     },
-    handleEdit (index, row) { // 行编辑
-      console.log(index, row)
-    },
-    handleDelete (index, row) { // 行删除
-      console.log(index, row)
+    getDeptId (deptId) {
+      this.formInline.deptId = deptId
+      this.getList()
     },
     onSubmit () { // 查询提交
       this.getList()
@@ -206,5 +215,4 @@ export default {
   .page-class {
     margin-bottom:30px;
   }
-
 </style>

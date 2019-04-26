@@ -26,7 +26,7 @@ export default {
   data () {
     return {
       indent: 30,
-      currentId: 0,
+      currentId: 1,
       data: [],
       defaultProps: {
         children: 'children',
@@ -46,7 +46,6 @@ export default {
       treeList({}).then(res => {
         if (res.errcode === 0) {
           this.data = this.packddata(res.data)
-          console.log(this.data)
         }
       })
     },
@@ -67,7 +66,7 @@ export default {
       return data
     },
     handleNodeClick (data) {
-      console.log(data)
+      this.$emit('getDeptId', data.id)
     }
   }
 }

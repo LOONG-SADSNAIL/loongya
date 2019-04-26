@@ -55,7 +55,7 @@ export default {
 }
 </script>
 <style>
-  .el-dropdown-menu {
+  .aside-f-two .el-dropdown-menu {
     margin-left: 20px !important;
     padding-left: 20px;
   }
