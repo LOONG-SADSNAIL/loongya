@@ -5,6 +5,7 @@ import login from './modules/login'
 import demo from './modules/demo'
 import sysuser from './modules/sysuser'
 import sysrole from './modules/sysrole'
+import sysbaseorgan from './modules/sysbaseorgan'
 
 Vue.use(Router)
 
@@ -17,7 +18,8 @@ export const constantRouterMap = [
   login,
   demo,
   sysuser,
-  sysrole
+  sysrole,
+  sysbaseorgan
 ]
 
 export default new Router({

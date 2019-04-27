@@ -35,3 +35,6 @@ html {
 .el-table .success-row {
     background: #f0f9eb;
 }
+.v-modal {
+    z-index: 0 !important;
+}

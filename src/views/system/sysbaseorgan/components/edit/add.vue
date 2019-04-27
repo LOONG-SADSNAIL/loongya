@@ -13,10 +13,15 @@
               <el-input v-model.trim="formData.username" :readonly="readonly" placeholder="用户名" @keyup.enter.native="onSubmit"/>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item label="用户名" prop="name">
+              <el-input v-model.trim="formData.username" :readonly="readonly" placeholder="用户名" @keyup.enter.native="onSubmit"/>
+            </el-form-item>
+          </el-col>
+        </el-row>
           <el-form-item>
             <el-button :loading="loading" type="primary" @click="onSubmit">保存</el-button>
           </el-form-item>
-        </el-row>
       </el-form>
     </el-dialog>
   </div>

@@ -2,8 +2,8 @@
   <div class="main-content-class">
     <el-row class="sysuser-row">
       <el-col :span="4">
-        <DeptTreeList
-          @getDeptId="getDeptId"
+        <OrganTreeList
+          @getOrganno="getOrganno"
         />
       </el-col>
       <el-col :span="20">
@@ -14,7 +14,7 @@
               <el-col :span="20">
                 <el-form :inline="true" :model="formInline" class="demo-form-inline">
                   <el-form-item>
-                    <el-input v-model="formInline.username" placeholder="请输入用户姓名"></el-input>
+                    <el-input v-model="formInline.fullname" placeholder="请输入机构名称"></el-input>
                   </el-form-item>
                   <el-form-item>
                     <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -65,7 +65,7 @@
                   操作
                 </template>
                 <template slot-scope="scope">
-                  <sysUserEdit
+                  <SysBaseOrganEdit
                     :row="scope.row"
                   />
                 </template>
@@ -106,26 +106,27 @@
 </template>
 
 <script>
-import { list } from '@/api/system/sysuser'
-import DeptTreeList from './deptTreeList'
-import SysUserEdit from './sysUserEidt'
+import { list } from '@/api/system/sysbaseorgan'
+import OrganTreeList from './organTreeList'
+import SysBaseOrganEdit from './edit/sysBaseOrganEdit'
 export default {
   name: 'SysUserList',
   components: {
-    DeptTreeList,
-    SysUserEdit
+    OrganTreeList,
+    SysBaseOrganEdit
   },
   data () {
     return {
       checkList: [],
       formInline: {
-        username: '',
+        fullname: '',
         rows: 10,
         page: 1,
-        orderby: 'create_time',
-        asc: 'descending',
+        orderby: 'organno',
+        asc: 'ascending',
         total: 0,
-        deptId: 1
+        userorganno: localStorage.getItem('organno'),
+        upperno: '001'
       },
       loading: false,
       showTableHeader: [{}], // 列表头部实际显示数据
@@ -139,11 +140,16 @@ export default {
   computed: {
   },
   mounted () {
-    this.getList()
+    // this.getList()
   },
   methods: {
-    getList () { // 列表获取
+    getList (page) { // 列表获取
       this.loading = true
+      if (page) {
+        this.formInline.page = page
+      } else {
+        this.formInline.page = 1
+      }
       list(this.formInline).then(res => {
         this.loading = false
         if (res.errcode === 0) {
@@ -154,8 +160,9 @@ export default {
         }
       })
     },
-    getDeptId (deptId) {
-      this.formInline.deptId = deptId
+    getOrganno (organno) {
+      console.log(organno)
+      this.formInline.upperno = organno
       this.getList()
     },
     onSubmit () { // 查询提交
@@ -187,7 +194,7 @@ export default {
     },
     pageHandleCurrentChange (val) { // 当前页修改
       this.formInline.page = val
-      this.getList()
+      this.getList(val)
     },
     tableRowClassName ({ row, rowIndex }) { // 列表样式显示
       if (rowIndex === 1) {

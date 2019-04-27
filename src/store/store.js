@@ -7,10 +7,12 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     token: getToken(),
-    userName: '',
-    roleName: '',
-    headImg: '',
-    userInfo: {},
+    username: localStorage.getItem('username') || '',
+    rolename: localStorage.getItem('rolename') || '',
+    organname: localStorage.getItem('organname') || '',
+    organno: localStorage.getItem('organno') || '', // 当前用户机构编号
+    headimg: localStorage.getItem('headimg') || '',
+    userInfo: JSON.parse(localStorage.getItem('userInfo')) || {},
     roles: [],
     menu_data: [],
     active_menu_index: 0,
@@ -28,19 +30,25 @@ const store = new Vuex.Store({
       state.token = token
     },
     SET_USER_NAME: (state, userName) => {
-      state.userName = userName
+      localStorage.setItem('username', userName)
     },
     SET_ROLE_NAME: (state, roleName) => {
-      state.roleName = roleName
+      localStorage.setItem('rolename', roleName)
     },
     SET_HEAD_IMG: (state, headImg) => {
-      state.headImg = headImg
+      localStorage.setItem('headimg', headImg)
+    },
+    SET_ORGAN_NAME: (state, organname) => {
+      localStorage.setItem('organname', organname)
+    },
+    SET_ORGAN_NO: (state, organno) => {
+      localStorage.setItem('organno', organno)
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
     },
     SET_USERINFO: (state, action) => {
-      state.userInfo = action
+      localStorage.setItem('userInfo', JSON.stringify(action))
     },
     SET_MENU: (state, data) => {
       state.menu_data = data
@@ -65,7 +73,9 @@ const store = new Vuex.Store({
           commit('SET_USERINFO', response.data)
           commit('SET_TOKEN', response.data.id)
           commit('SET_USER_NAME', response.data.username)
-          commit('SET_ROLE_NAME', response.data.roleName)
+          commit('SET_ROLE_NAME', response.data.rolename)
+          commit('SET_ORGAN_NAME', response.data.organname)
+          commit('SET_ORGAN_NO', response.data.organno)
           commit('SET_HEAD_IMG', response.data.headImg | '')
           resolve(response)
         }).catch(error => {
@@ -100,6 +110,8 @@ const store = new Vuex.Store({
           commit('SET_ROLES', [])
           commit('SET_USERINFO', {})
           commit('SET_USER_NAME', '')
+          commit('SET_ORGAN_NAME', '')
+          commit('SET_ORGAN_NO', '')
           commit('SET_HEAD_IMG', '')
           removeToken()
           resolve(response)

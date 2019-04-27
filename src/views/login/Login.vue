@@ -31,9 +31,9 @@
                   <el-input type="text" placeholder="请输入账号" v-model="loginForm.username" autocomplete="on"></el-input>
                 </el-form-item>
                 <el-form-item prop="password">
-                  <el-input type="password" placeholder="请输入密码" v-model="loginForm.password" autocomplete="on"></el-input>
+                  <el-input type="password" placeholder="请输入密码" v-model="loginForm.password" autocomplete="on" @keyup.enter.native="submitForm"></el-input>
                 </el-form-item>
-                <el-button class="login-button-class" type="primary" @click="submitForm('loginForm')">提交</el-button>
+                <el-button class="login-button-class" type="primary" @click="submitForm">提交</el-button>
               </el-form>
             </div>
           </div>
@@ -81,8 +81,8 @@ export default {
   computed: {
   },
   methods: {
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm () {
+      this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true
           this.$store.dispatch('Login', this.loginForm).then((res) => {

@@ -4,33 +4,35 @@
       组织机构
     </div>
     <div class="sysuser-one-tree">
-      <el-tree :data="data"
-               :props="defaultProps"
-               default-expand-all
-               highlight-current
-               node-key="id"
-               :current-node-key="currentId"
-               accordion
-               :indent="indent"
-               @node-click="handleNodeClick"></el-tree>
+      <el-tree
+        ref="tree"
+        :props="defaultProps"
+        :load="loadNode"
+        lazy
+        highlight-current
+        node-key="organno"
+        :current-node-key="currentno"
+        accordion
+        :indent="indent"
+        @node-click="handleNodeClick"></el-tree>
     </div>
   </div>
 </template>
 
 <script>
-import { treeList } from '@/api/system/sysdept'
+import { treeList } from '@/api/system/sysbaseorgan'
 export default {
   name: 'SysDeptTreeList',
   components: {
   },
   data () {
     return {
-      indent: 30,
-      currentId: 1,
-      data: [],
+      indent: 20,
+      currentno: '001',
+      data: [{ fullname: '轻松环品', organno: '001' }],
       defaultProps: {
-        children: 'children',
-        label: 'name'
+        label: 'fullname',
+        isLeaf: 'leaf'
       }
     }
   },
@@ -39,34 +41,22 @@ export default {
   computed: {
   },
   mounted () {
-    this.getTreeList()
   },
   methods: {
-    getTreeList () {
-      treeList({}).then(res => {
+    loadNode (node, resolve) {
+      if (node.level === 0) {
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+        this.$emit('getOrganno', userInfo.organno)
+        return resolve([{ fullname: localStorage.getItem('organname'), organno: userInfo.organno }])
+      }
+      treeList({ upperno: node.data.organno }).then(res => {
         if (res.errcode === 0) {
-          this.data = this.packddata(res.data)
+          resolve(res.data)
         }
       })
     },
-    packddata (resData) {
-      const children = resData
-      const zongbuobj = {}
-      zongbuobj.children = children
-      zongbuobj.id = 1
-      zongbuobj.name = '总部'
-      const zongbu = []
-      zongbu.push(zongbuobj)
-      const dingji = {}
-      dingji.id = -1
-      dingji.name = '顶级'
-      dingji.children = zongbu
-      const data = []
-      data.push(dingji)
-      return data
-    },
     handleNodeClick (data) {
-      this.$emit('getDeptId', data.id)
+      this.$emit('getOrganno', data.organno)
     }
   }
 }
@@ -97,6 +87,6 @@ export default {
   .sysuser .sysuser-row .sysuser-one-tree{
     font-size: 13px;
     padding: 10px;
-    z-index: 999999;
+    z-index: 999;
   }
 </style>

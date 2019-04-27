@@ -1,5 +1,5 @@
 import Home from '../../views/index/Home'
-import SysUserIndex from '../../views/sysuser/index'
+import SysUserIndex from '../../views/system/sysuser/index'
 
 export const RouterMapSysuser = {
   path: '/sysuser',
