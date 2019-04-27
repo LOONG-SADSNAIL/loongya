@@ -66,7 +66,7 @@
                 </template>
                 <template slot-scope="scope">
                   <sysUserEdit
-                    :id="scope.row.id"
+                    :row="scope.row"
                   />
                 </template>
               </el-table-column>

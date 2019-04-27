@@ -37,50 +37,32 @@
         </el-button>
       </el-dropdown-item>
     </el-dropdown-menu>
-    <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
-      <el-form :model="form">
-        <el-form-item label="活动名称" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="活动区域" :label-width="formLabelWidth">
-          <el-select v-model="form.region" placeholder="请选择活动区域">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-      </div>
-    </el-dialog>
+    <AddUser
+      :dialog-visible="dialogFormVisible"
+      :readonly="readonly"
+      @closeDialog="closeDialog"
+      :row="row"
+    />
   </el-dropdown>
 </template>
 
 <script>
+import AddUser from './edit/add'
 export default {
   name: 'SysDeptTreeList',
   components: {
+    AddUser
   },
   props: {
-    id: {
-      type: Number,
+    row: {
+      type: Object,
       required: true
     }
   },
   data () {
     return {
+      readonly: false,
       dialogFormVisible: false,
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
-      },
       formLabelWidth: '120px'
     }
   },
@@ -103,6 +85,9 @@ export default {
     },
     handleUpdatePassword () {
       console.log('修改密码')
+    },
+    closeDialog () {
+      this.dialogFormVisible = false
     }
   }
 }
@@ -117,5 +102,8 @@ export default {
   }
   .dropdown-class {
     margin-left: 0px !important;
+  }
+  .el-dialog {
+    z-index: 4000;
   }
 </style>
