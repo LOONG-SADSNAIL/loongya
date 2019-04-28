@@ -137,14 +137,9 @@ const store = new Vuex.Store({
               return resolve
             }
             commit('SET_MENU', arr)
-            commit('SET_ACTIVE_MENU_INDEX', arr[0].menuid)
-            commit('SET_ACTIVE_SUB_MENU_INDEX', arr[0].childlist[0].url)
-            if (arr[0].childlist.length > 0) {
-              commit('SET_ACTIVE_SUB_MENU_INDEX', arr[0].childlist[0].url)
+            if (!state.active_menu_index) {
+              commit('SET_ACTIVE_MENU_INDEX', arr[0].menuid)
             }
-            // if (!state.active_menu_index) {
-            //   commit('SET_ACTIVE_MENU_INDEX', arr[0].menuid)
-            // }
             // if (!state.subMunuIndex && arr[0].childlist.length > 0) {
             //   commit('SET_ACTIVE_SUB_MENU_INDEX', arr[0].childlist[0].url)
             // }

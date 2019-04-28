@@ -6,7 +6,7 @@
     <el-container>
       <div class="main-header-class">
         <div class="ibox-title">
-          <h5>角色管理</h5>
+          <h5>字典管理</h5>
         </div>
         <list/>
       </div>
@@ -18,7 +18,7 @@
 import list from './components/list'
 import '@/assets/css/appmain.css'
 export default {
-  name: 'Sysrole',
+  name: 'SysDict',
   components: {
     list
   },

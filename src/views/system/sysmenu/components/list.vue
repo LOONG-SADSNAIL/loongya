@@ -2,8 +2,9 @@
   <div class="main-content-class">
     <el-row class="sysuser-row">
       <el-col :span="4">
-        <OrganTreeList
-          @getOrganno="getOrganno"
+        <!-- ==============todo 1===============-->
+        <MenuTreeList
+          @getMenuid="getMenuid"
         />
       </el-col>
       <el-col :span="20">
@@ -13,8 +14,8 @@
               <!--==================================列表查询===========start===================================== -->
               <el-col :span="20">
                 <el-form :inline="true" :model="formInline" class="demo-form-inline">
-                  <el-form-item>
-                    <el-input v-model="formInline.fullname" placeholder="请输入机构名称"></el-input>
+                  <el-form-item> <!-- ==============todo 2===============-->
+                    <el-input v-model="formInline.menuname" placeholder="请输入菜单名称"></el-input>
                   </el-form-item>
                   <el-form-item>
                     <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -54,8 +55,9 @@
               ref="singleTable"
               :data="tableData"
               @sort-change="sortChange"
-              :default-sort = "{prop: 'createTime', order: 'descending'}"
+              :default-sort = "{prop: 'menuid', order: 'ascending'}"
               style="width: 100%">
+              <!-- ==============todo 3===============-->
               <el-table-column
                 class="edit-class"
                 width="80"
@@ -65,7 +67,8 @@
                   操作
                 </template>
                 <template slot-scope="scope">
-                  <SysBaseOrganEdit
+                  <!-- ==============todo 4===============-->
+                  <SysMenuEdit
                     :row="scope.row"
                   />
                 </template>
@@ -106,27 +109,27 @@
 </template>
 
 <script>
-import { list } from '@/api/system/sysbaseorgan'
-import OrganTreeList from './organTreeList'
-import SysBaseOrganEdit from './edit/sysBaseOrganEdit'
+// ==============todo5
+import { list } from '@/api/system/sysmenu'
+import MenuTreeList from './sysMenuTreeList'
+import SysMenuEdit from './edit/sysMenuEdit'
 export default {
-  name: 'SysUserList',
-  components: {
-    OrganTreeList,
-    SysBaseOrganEdit
+  name: 'SysDictList',
+  components: { // ==============todo6
+    MenuTreeList,
+    SysMenuEdit
   },
   data () {
     return {
       checkList: [],
-      formInline: {
-        fullname: '',
+      formInline: { // ==============todo7
+        menuname: '',
         rows: 10,
         page: 1,
-        orderby: 'organno',
+        orderby: 'menuid',
         asc: 'ascending',
         total: 0,
-        userorganno: localStorage.getItem('organno'),
-        upperno: '001'
+        menuid: ''
       },
       loading: false,
       showTableHeader: [{}], // 列表头部实际显示数据
@@ -160,12 +163,13 @@ export default {
         }
       })
     },
-    getOrganno (organno) {
-      console.log(organno)
-      this.formInline.upperno = organno
+    getMenuid (menuid) { // ==============todo8
+      console.log(menuid)
+      this.formInline.menuid = menuid
       this.getList()
     },
     onSubmit () { // 查询提交
+      this.formInline.menuid = '' // ==============todo9
       this.getList()
     },
     handleShowHeader () { // 列表头部显示处理

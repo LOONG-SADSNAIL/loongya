@@ -2,8 +2,8 @@
   <div class="main-content-class">
     <el-row class="sysuser-row">
       <el-col :span="4">
-        <OrganTreeList
-          @getOrganno="getOrganno"
+        <DictTreeList
+          @getPid="getPid"
         />
       </el-col>
       <el-col :span="20">
@@ -14,7 +14,7 @@
               <el-col :span="20">
                 <el-form :inline="true" :model="formInline" class="demo-form-inline">
                   <el-form-item>
-                    <el-input v-model="formInline.fullname" placeholder="请输入机构名称"></el-input>
+                    <el-input v-model="formInline.name" placeholder="请输入字典名称"></el-input>
                   </el-form-item>
                   <el-form-item>
                     <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -54,7 +54,7 @@
               ref="singleTable"
               :data="tableData"
               @sort-change="sortChange"
-              :default-sort = "{prop: 'createTime', order: 'descending'}"
+              :default-sort = "{prop: 'num', order: 'ascending'}"
               style="width: 100%">
               <el-table-column
                 class="edit-class"
@@ -65,7 +65,7 @@
                   操作
                 </template>
                 <template slot-scope="scope">
-                  <SysBaseOrganEdit
+                  <SysDictEdit
                     :row="scope.row"
                   />
                 </template>
@@ -106,27 +106,26 @@
 </template>
 
 <script>
-import { list } from '@/api/system/sysbaseorgan'
-import OrganTreeList from './organTreeList'
-import SysBaseOrganEdit from './edit/sysBaseOrganEdit'
+import { list } from '@/api/system/sysdict'
+import DictTreeList from './sysDictTreeList'
+import SysDictEdit from './edit/sysDictEdit'
 export default {
-  name: 'SysUserList',
+  name: 'SysDictList',
   components: {
-    OrganTreeList,
-    SysBaseOrganEdit
+    DictTreeList,
+    SysDictEdit
   },
   data () {
     return {
       checkList: [],
       formInline: {
-        fullname: '',
+        name: '',
         rows: 10,
         page: 1,
-        orderby: 'organno',
+        orderby: 'pid',
         asc: 'ascending',
         total: 0,
-        userorganno: localStorage.getItem('organno'),
-        upperno: '001'
+        pid: ''
       },
       loading: false,
       showTableHeader: [{}], // 列表头部实际显示数据
@@ -160,12 +159,13 @@ export default {
         }
       })
     },
-    getOrganno (organno) {
-      console.log(organno)
-      this.formInline.upperno = organno
+    getPid (pid) {
+      console.log(pid)
+      this.formInline.pid = pid
       this.getList()
     },
     onSubmit () { // 查询提交
+      this.formInline.pid = ''
       this.getList()
     },
     handleShowHeader () { // 列表头部显示处理

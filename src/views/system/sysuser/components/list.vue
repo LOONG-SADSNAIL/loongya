@@ -172,7 +172,7 @@ export default {
       if (this.checkList.length > 0) {
         showHeaders = this.tableHeader.filter(e => this.checkList.indexOf(e.label) >= 0)
       } else {
-        showHeaders = this.tableHeader.filter(e => e.isShow === 'true')
+        showHeaders = this.tableHeader.filter(e => e.isShow)
         showHeaders.forEach(e => {
           this.checkList.push(e.label)
         })

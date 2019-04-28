@@ -1,20 +1,15 @@
 <template>
   <div class="main-content-class">
     <el-row class="sysuser-row">
-      <el-col :span="4">
-        <OrganTreeList
-          @getOrganno="getOrganno"
-        />
-      </el-col>
-      <el-col :span="20">
+      <el-col :span="24">
         <div class="sysuser-div-two">
           <div class="sysUserList">
             <el-row>
               <!--==================================列表查询===========start===================================== -->
               <el-col :span="20">
                 <el-form :inline="true" :model="formInline" class="demo-form-inline">
-                  <el-form-item>
-                    <el-input v-model="formInline.fullname" placeholder="请输入机构名称"></el-input>
+                  <el-form-item> <!-- ==============todo 2===============-->
+                    <el-input v-model="formInline.title" placeholder="请输入通知标题"></el-input>
                   </el-form-item>
                   <el-form-item>
                     <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -54,8 +49,9 @@
               ref="singleTable"
               :data="tableData"
               @sort-change="sortChange"
-              :default-sort = "{prop: 'createTime', order: 'descending'}"
+              :default-sort = "{prop: 'id', order: 'ascending'}"
               style="width: 100%">
+              <!-- ==============todo 3===============-->
               <el-table-column
                 class="edit-class"
                 width="80"
@@ -65,17 +61,18 @@
                   操作
                 </template>
                 <template slot-scope="scope">
-                  <SysBaseOrganEdit
+                  <!-- ==============todo 4===============-->
+                  <SysNoticeEdit
                     :row="scope.row"
                   />
                 </template>
               </el-table-column>
-              <el-table-column
-                type="index"
-                sortable
-                show-overflow-tooltip
-                resizable
-              />
+<!--              <el-table-column-->
+<!--                type="index"-->
+<!--                sortable-->
+<!--                show-overflow-tooltip-->
+<!--                resizable-->
+<!--              />-->
               <el-table-column
                 v-for="header in showTableHeader"
                 :key="header.prop"
@@ -106,27 +103,25 @@
 </template>
 
 <script>
-import { list } from '@/api/system/sysbaseorgan'
-import OrganTreeList from './organTreeList'
-import SysBaseOrganEdit from './edit/sysBaseOrganEdit'
+// ==============todo5
+import { list } from '@/api/system/sysnotice'
+import SysNoticeEdit from './edit/sysNoticeEdit'
 export default {
-  name: 'SysUserList',
-  components: {
-    OrganTreeList,
-    SysBaseOrganEdit
+  name: 'SysNoticeList',
+  components: { // ==============todo6
+    SysNoticeEdit
   },
   data () {
     return {
       checkList: [],
-      formInline: {
-        fullname: '',
+      formInline: { // ==============todo7
+        title: '',
         rows: 10,
         page: 1,
-        orderby: 'organno',
+        orderby: 'id',
         asc: 'ascending',
         total: 0,
-        userorganno: localStorage.getItem('organno'),
-        upperno: '001'
+        id: ''
       },
       loading: false,
       showTableHeader: [{}], // 列表头部实际显示数据
@@ -140,7 +135,7 @@ export default {
   computed: {
   },
   mounted () {
-    // this.getList()
+    this.getList()
   },
   methods: {
     getList (page) { // 列表获取
@@ -160,12 +155,8 @@ export default {
         }
       })
     },
-    getOrganno (organno) {
-      console.log(organno)
-      this.formInline.upperno = organno
-      this.getList()
-    },
     onSubmit () { // 查询提交
+      this.formInline.id = '' // ==============todo9
       this.getList()
     },
     handleShowHeader () { // 列表头部显示处理

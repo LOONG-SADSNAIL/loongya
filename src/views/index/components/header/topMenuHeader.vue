@@ -33,11 +33,11 @@ export default {
   methods: {
     handleSelect (key, keyPath) {
       this.$store.dispatch('setActiveMenuIndex', { 'index': key })
-      const menu = this.$store.getters.getMenuItem
-      if (menu && menu.childlist.length > 0) {
-        const subMenuIndex = menu.childlist[0].menuid
-        this.$store.dispatch('setActiveSubMenuIndex', { 'subMunuIndex': subMenuIndex })
-      }
+      // const menu = this.$store.getters.getMenuItem
+      // if (menu && menu.childlist.length > 0) {
+      //   const subMenuIndex = menu.childlist[0].menuid
+      //   this.$store.dispatch('setActiveSubMenuIndex', { 'subMunuIndex': subMenuIndex })
+      // }
     }
   }
 }
