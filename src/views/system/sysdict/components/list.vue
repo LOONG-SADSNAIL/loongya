@@ -1,104 +1,105 @@
 <template>
-  <div class="main-content-class">
-    <el-row class="sysuser-row">
-      <el-col :span="4">
+  <div class="homeMainContent">
+    <div class="iboxTitle">
+      字典管理
+    </div>
+    <el-row class="homeMainRow">
+      <el-col class="homeMainRowColLeft" :span="4">
         <DictTreeList
           @getPid="getPid"
         />
       </el-col>
-      <el-col :span="20">
-        <div class="sysuser-div-two">
-          <div class="sysUserList">
-            <el-row>
-              <!--==================================列表查询===========start===================================== -->
-              <el-col :span="20">
-                <el-form :inline="true" :model="formInline" class="demo-form-inline">
-                  <el-form-item>
-                    <el-input v-model="formInline.name" placeholder="请输入字典名称"></el-input>
-                  </el-form-item>
-                  <el-form-item>
-                    <el-button type="primary" @click="onSubmit">查询</el-button>
-                  </el-form-item>
-                </el-form>
-              </el-col>
-              <!--==================================列表查询===========end===================================== -->
-              <!--==================================列表头部选择器===========start===================================== -->
-              <el-col class="main-header-right-class" :span="4">
-                <el-dropdown
-                  :hide-on-click="false"
-                  @visible-change="visibleChangeClick"
-                >
-          <span class="el-dropdown-link">
-            <svg-icon icon-class="tablemenu"/>
-          </span>
-                  <el-dropdown-menu slot="dropdown">
-                    <el-checkbox-group v-model="checkList">
-                      <el-dropdown-item  v-for="item in tableHeader" :key="item.prop">
-                        <el-checkbox :label="item.label"></el-checkbox>
-                      </el-dropdown-item>
-                    </el-checkbox-group>
-                  </el-dropdown-menu>
-                </el-dropdown>
-              </el-col>
-            </el-row>
-            <!--==================================列表头部选择器===========end===================================== -->
-            <!-- ============================列表start===========================================-->
-            <el-table
-              v-loading="loading"
-              element-loading-text="拼命加载中"
-              element-loading-spinner="el-icon-loading"
-              element-loading-background="rgba(0, 0, 0, 0.8)"
-              border
-              fit
-              :row-class-name="tableRowClassName"
-              ref="singleTable"
-              :data="tableData"
-              @sort-change="sortChange"
-              :default-sort = "{prop: 'num', order: 'ascending'}"
-              style="width: 100%">
-              <el-table-column
-                class="edit-class"
-                width="80"
-                fixed="left"
-                align="center">
-                <template slot="header">
-                  操作
-                </template>
-                <template slot-scope="scope">
-                  <SysDictEdit
-                    :row="scope.row"
-                  />
-                </template>
-              </el-table-column>
-              <el-table-column
-                type="index"
-                sortable
-                show-overflow-tooltip
-                resizable
-              />
-              <el-table-column
-                v-for="header in showTableHeader"
-                :key="header.prop"
-                :prop="header.prop"
-                sortable
-                resizable
-                show-overflow-tooltip
-                :label="header.label"
-              />
-            </el-table>
-            <!-- ============================列表 end===========================================-->
-            <!-- ============================分页 start===========================================-->
-            <el-pagination
-              class="page-class"
-              @size-change="pageHandleSizeChange"
-              @current-change="pageHandleCurrentChange"
-              :current-page="formInline.page"
-              :page-size="formInline.rows"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="formInline.total">
-            </el-pagination>
-            <!-- ============================分页 end===========================================-->
-          </div>
+      <el-col class="homeMainRowColRight" :span="20">
+        <div class="homeMainRowColRightTable">
+          <el-row>
+            <!--==================================列表查询===========start===================================== -->
+            <el-col :span="20">
+              <el-form :inline="true" :model="formInline" class="">
+                <el-form-item>
+                  <el-input v-model="formInline.name" placeholder="请输入字典名称"></el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary" @click="onSubmit">查询</el-button>
+                </el-form-item>
+              </el-form>
+            </el-col>
+            <!--==================================列表查询===========end===================================== -->
+            <!--==================================列表头部选择器===========start===================================== -->
+            <el-col class="homeSearchHeaderChange" :span="4">
+              <el-dropdown
+                :hide-on-click="false"
+                @visible-change="visibleChangeClick">
+                <span class="homeSearchHeaderChangeSvg">
+                  <svg-icon icon-class="tablemenu"/>
+                </span>
+                <el-dropdown-menu class="homeMainRightMenuChange" slot="dropdown">
+                  <el-checkbox-group v-model="checkList">
+                    <el-dropdown-item  v-for="item in tableHeader" :key="item.prop">
+                      <el-checkbox :label="item.label"></el-checkbox>
+                    </el-dropdown-item>
+                  </el-checkbox-group>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </el-col>
+          </el-row>
+          <!--==================================列表头部选择器===========end===================================== -->
+          <!-- ============================列表start===========================================-->
+          <el-table
+            class="homeMainRightTable"
+            v-loading="loading"
+            element-loading-text="拼命加载中"
+            element-loading-spinner="el-icon-loading"
+            element-loading-background="rgba(0, 0, 0, 0.8)"
+            border
+            fit
+            :row-class-name="tableRowClassName"
+            ref="singleTable"
+            :data="tableData"
+            @sort-change="sortChange"
+            :default-sort = "{prop: 'num', order: 'ascending'}"
+            style="width: 100%">
+            <el-table-column
+              class="edit-class"
+              width="80"
+              fixed="left"
+              align="center">
+              <template slot="header">
+                操作
+              </template>
+              <template slot-scope="scope">
+                <SysDictEdit
+                  :row="scope.row"
+                />
+              </template>
+            </el-table-column>
+            <el-table-column
+              type="index"
+              sortable
+              show-overflow-tooltip
+              resizable
+            />
+            <el-table-column
+              v-for="header in showTableHeader"
+              :key="header.prop"
+              :prop="header.prop"
+              sortable
+              resizable
+              show-overflow-tooltip
+              :label="header.label"
+            />
+          </el-table>
+          <!-- ============================列表 end===========================================-->
+          <!-- ============================分页 start===========================================-->
+          <el-pagination
+            class="page-class"
+            @size-change="pageHandleSizeChange"
+            @current-change="pageHandleCurrentChange"
+            :current-page="formInline.page"
+            :page-size="formInline.rows"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="formInline.total">
+          </el-pagination>
+          <!-- ============================分页 end===========================================-->
         </div>
       </el-col>
     </el-row>

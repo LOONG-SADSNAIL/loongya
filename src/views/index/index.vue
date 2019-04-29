@@ -1,33 +1,31 @@
 <template>
-  <div class="sysuser" v-loading="loading"
+  <div class="homeMainContainer" v-loading="loading"
        element-loading-text="拼命加载中"
        element-loading-spinner="el-icon-loading"
        element-loading-background="rgba(0, 0, 0, 0.8)" >
     <el-container>
-      <div class="main-header-class">
-        <div class="ibox-title">
+      <div class="homeMainContent">
+        <div class="iboxTitle">
           <h5>首页</h5>
         </div>
-        <div class="main-content-class">
-          <el-row class="sysuser-row">
-            <el-col :span="24">
-              <div class="sysuser-div-one">
-                <el-collapse>
-                  <el-collapse-item title="系统通知" name="1">
-                    <div class="sysuser-one-tree">
-                      <el-collapse v-model="activeName" accordion @change="handleChange">
-                        <el-collapse-item v-for="item in data" :key="item.id" :title="item.title" :name="item.id">
-                          <div>{{item.content}}</div>
-                        </el-collapse-item>
-                      </el-collapse>
-                    </div>
-                  </el-collapse-item>
-                </el-collapse>
+        <el-row class="homeMainRow">
+          <el-col class="homeMainRowColRight" :span="24">
+            <div class="homeMainRowColRightTable">
+              <el-collapse>
+                <el-collapse-item title="系统通知" name="1">
+                  <div class="">
+                    <el-collapse v-model="activeName" accordion @change="handleChange">
+                      <el-collapse-item v-for="item in data" :key="item.id" :title="item.title" :name="item.id">
+                        <div>{{item.content}}</div>
+                      </el-collapse-item>
+                    </el-collapse>
+                  </div>
+                </el-collapse-item>
+              </el-collapse>
 
-              </div>
-            </el-col>
-          </el-row>
-        </div>
+            </div>
+          </el-col>
+        </el-row>
       </div>
     </el-container>
   </div>

@@ -16,7 +16,7 @@ const store = new Vuex.Store({
     roles: [],
     menu_data: [],
     active_menu_index: 0,
-    isCollapse: false,
+    isCollapse: true,
     subMunuIndex: ''
   },
   getters: {
@@ -160,7 +160,7 @@ const store = new Vuex.Store({
     },
     // 设置当前活动菜单项
     setActiveMenuIndex ({ commit }, payload) {
-      commit('SET_ACTIVE_MENU_INDEX', payload.index)
+      commit('SET_ACTIVE_MENU_INDEX', payload.mainrouter)
     }, // 设置子菜单当前活动选项
     setActiveSubMenuIndex ({ commit }, payload) {
       commit('SET_ACTIVE_SUB_MENU_INDEX', payload.subMunuIndex)

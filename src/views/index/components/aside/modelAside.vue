@@ -1,36 +1,27 @@
 <template>
-  <el-row class="el-aside">
-    <el-col :span="24">
-      <div class="aside-content">
-        <el-menu
-          :default-active="subMunuIndex"
-          class="el-menu-vertical-demo"
-          background-color="#2f4050"
-          text-color="#fff"
-          :unique-opened="true"
-          active-text-color="#ffd04b"
-          :router="true"
-          @select="handleSelect"
-          :collapse="isCollapse">
-          <TopAside v-if="!isCollapse"/>
-          <TopAsideTwo v-if="isCollapse"/>
-          <menu-items v-if="getMenuItem"  :item="getMenuItem"/>
-        </el-menu>
+  <div @mouseenter="mouseenterChangeCollapse"
+       @mouseleave="mouseleaveChangeCollapse">
+    <el-menu
+      :default-active="subMunuIndex"
+      class="homeAside"
+      background-color="#252a2f"
+      text-color="#fff"
+      :unique-opened="false"
+      active-text-color="#ffd04b"
+      :router="true"
+      @select="handleSelect"
+      :collapse="isCollapse">
+      <menu-items v-if="getMenuItem"  :item="getMenuItem"/>
+    </el-menu>
+  </div>
 
-      </div>
-    </el-col>
-  </el-row>
 </template>
 
 <script>
-import TopAside from './topAside'
-import TopAsideTwo from './topAsideTwo'
 import MenuItems from './menuItems'
 export default {
   name: 'BottomAside',
   components: {
-    TopAside,
-    TopAsideTwo,
     MenuItems
   },
   data () {
@@ -54,19 +45,17 @@ export default {
   methods: {
     handleSelect (key, keyPath) {
       this.$store.dispatch('setActiveSubMenuIndex', { 'subMunuIndex': key })
+      this.$store.dispatch('setIsCollapse', true)
+    },
+    mouseenterChangeCollapse () {
+      this.$store.dispatch('setIsCollapse', false)
+    },
+    mouseleaveChangeCollapse () {
+      this.$store.dispatch('setIsCollapse', true)
     }
   }
 }
 </script>
+
 <style>
-  .el-menu-vertical-demo:not(.el-menu--collapse) {
-    min-height: 100%;
-    width:180px;
-  }
-  .el-col {
-    height: 100%;
-  }
-  .aside-content {
-    height: 100%;
-  }
 </style>

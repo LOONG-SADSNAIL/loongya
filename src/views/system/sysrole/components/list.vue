@@ -1,9 +1,11 @@
 <template>
-  <div class="main-content-class">
-    <el-row class="sysuser-row">
-      <el-col :span="24">
-        <div class="sysuser-div-two">
-          <div class="sysUserList">
+  <div class="homeMainContent">
+    <div class="iboxTitle">
+      <h5>角色管理</h5>
+    </div>
+    <el-row class="homeMainRow">
+      <el-col class="homeMainRowColRight" :span="24">
+        <div class="homeMainRowColRightTable">
             <el-row>
               <!--==================================列表查询===========start===================================== -->
               <el-col :span="20">
@@ -18,15 +20,15 @@
               </el-col>
               <!--==================================列表查询===========end===================================== -->
               <!--==================================列表头部选择器===========start===================================== -->
-              <el-col class="main-header-right-class" :span="4">
+              <el-col class="homeSearchHeaderChange" :span="4">
                 <el-dropdown
                   :hide-on-click="false"
                   @visible-change="visibleChangeClick"
                 >
-          <span class="el-dropdown-link">
+          <span class="homeSearchHeaderChangeSvg">
             <svg-icon icon-class="tablemenu"/>
           </span>
-                  <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-menu class="homeMainRightMenuChange" slot="dropdown">
                     <el-checkbox-group v-model="checkList">
                       <el-dropdown-item  v-for="item in tableHeader" :key="item.prop">
                         <el-checkbox :label="item.label"></el-checkbox>
@@ -39,6 +41,7 @@
             <!--==================================列表头部选择器===========end===================================== -->
             <!-- ============================列表start===========================================-->
             <el-table
+              class="homeMainRightTable"
               v-loading="loading"
               element-loading-text="拼命加载中"
               element-loading-spinner="el-icon-loading"
@@ -96,7 +99,6 @@
             </el-pagination>
             <!-- ============================分页 end===========================================-->
           </div>
-        </div>
       </el-col>
     </el-row>
   </div>

@@ -1,40 +1,33 @@
-/*---------------------reset----------------------*/
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin:0; padding:0; border:0; outline:0;}
-ol, ul, li { list-style:none }
-body { background:#FFF;}
-:focus { outline:0 }
-table { border-collapse:collapse; border-spacing:0 }
-table,table td,table th{border:1px solid #edeada;border-collapse:collapse;}
-address, cite, code, dfn, em, var, i { font-style:normal }
-input[type=button], input[type=submit], button { cursor:pointer; outline:none;}
-.input, select { vertical-align:middle }
-* html .clearfix { zoom:1 }
-*+html .clearfix { zoom:1 }
-textarea{resize:none;}
-a { text-decoration:none; color:#009bd8 }
-.clearfix:after {clear: both;content: ".";display: block;height: 0;overflow: hidden;visibility: hidden;}
-.pos-r{ position:relative;}
-.hide{ display:none;}
-#app {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50;
-    font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    line-height: 1.42857143;
+html {
+    font-size: 62.5%;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 html {
-    height: 100% !important;
+    font-family: sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
 }
-#app, html, body, .el-container, .login {
-    height: 100%;
+user agent stylesheet
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
-.el-table .warning-row {
-    background: oldlace;
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-.el-table .success-row {
-    background: #f0f9eb;
+body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti, "Microsoft YaHei";
+    margin: 0;
+    display: block;
 }
-.v-modal {
-    z-index: 0 !important;
+
+body {
+    background-color: rgb(55, 61, 65);
+    padding-top: 50px;
+    padding-left: 50px;
+    font-size: 12px;
 }
