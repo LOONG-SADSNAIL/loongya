@@ -1,18 +1,20 @@
 <template>
-  <div @mouseenter="mouseenterChangeCollapse"
-       @mouseleave="mouseleaveChangeCollapse">
-    <el-menu
-      :default-active="subMunuIndex"
-      class="homeAside"
-      background-color="#252a2f"
-      text-color="#fff"
-      :unique-opened="false"
-      active-text-color="#ffd04b"
-      :router="true"
-      @select="handleSelect"
-      :collapse="isCollapse">
-      <menu-items v-if="getMenuItem"  :item="getMenuItem"/>
-    </el-menu>
+  <div
+       @mouseleave="mouseleaveChangeCollapse"> <!--@mouseenter="mouseenterChangeCollapse"-->
+    <transition name="el-zoom-in-right">
+      <el-menu
+        :default-active="subMunuIndex"
+        class="homeAside"
+        background-color="#252a2f"
+        text-color="#fff"
+        :unique-opened="false"
+        active-text-color="#ffd04b"
+        :router="true"
+        @select="handleSelect"
+        :collapse="isCollapse">
+        <menu-items v-if="getMenuItem"  :item="getMenuItem"/>
+      </el-menu>
+    </transition>
   </div>
 
 </template>

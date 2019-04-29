@@ -1,21 +1,23 @@
 <template>
   <section class="homeMain">
-    <div class="homeMainBody" :class="{ sidebarwidth: !isCollapse}">
-      <el-breadcrumb class="homeHeaderBreadcrumb" :class="{ sidebarwidth: !isCollapse}" separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item  v-for="item in paths" :key="item.path" :to="{ path: item.path }">
-            <label :data="item.path" @click="breadcrumbClick($event.currentTarget)">
-              {{item.title}}
-            </label>
-          </el-breadcrumb-item>
-      </el-breadcrumb>
-      <div class="homeSectionMain">
-        <transition name="fade-transform" mode="out-in">
-          <div class="homeMainview">
-            <router-view/>
-          </div>
-        </transition>
+    <transition name="el-zoom-in-left">
+      <div class="homeMainBody" :class="{ sidebarwidth: !isCollapse}">
+        <el-breadcrumb class="homeHeaderBreadcrumb" :class="{ sidebarwidth: !isCollapse}" separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item  v-for="item in paths" :key="item.path" :to="{ path: item.path }">
+              <label :data="item.path" @click="breadcrumbClick($event.currentTarget)">
+                {{item.title}}
+              </label>
+            </el-breadcrumb-item>
+        </el-breadcrumb>
+        <div class="homeSectionMain">
+          <transition name="fade-transform" mode="out-in">
+            <div class="homeMainview">
+                <router-view/>
+            </div>
+          </transition>
+        </div>
       </div>
-    </div>
+    </transition>
   </section>
 </template>
 
