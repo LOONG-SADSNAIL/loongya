@@ -7,7 +7,6 @@
               {{item.title}}
             </label>
           </el-breadcrumb-item>
-
       </el-breadcrumb>
       <div class="homeSectionMain">
         <transition name="fade-transform" mode="out-in">
