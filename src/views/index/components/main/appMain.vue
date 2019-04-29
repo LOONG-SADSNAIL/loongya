@@ -1,7 +1,7 @@
 <template>
   <section class="homeMain">
-    <div class="homeMainBody">
-      <el-breadcrumb class="homeHeaderBreadcrumb" separator-class="el-icon-arrow-right">
+    <div class="homeMainBody" :class="{ sidebarwidth: !isCollapse}">
+      <el-breadcrumb class="homeHeaderBreadcrumb" :class="{ sidebarwidth: !isCollapse}" separator-class="el-icon-arrow-right">
           <el-breadcrumb-item  v-for="item in paths" :key="item.path" :to="{ path: item.path }">
             <label :data="item.path" @click="breadcrumbClick($event.currentTarget)">
               {{item.title}}
@@ -32,6 +32,9 @@ export default {
     }
   },
   computed: {
+    isCollapse () {
+      return this.$store.state.isCollapse
+    }
   },
   methods: {
     breadcrumbClick (node) {
@@ -45,4 +48,7 @@ export default {
 
 </script>
 <style>
+  .sidebarwidth {
+    padding-left: 120px;
+  }
 </style>
