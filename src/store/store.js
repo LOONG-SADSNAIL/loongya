@@ -17,17 +17,30 @@ const store = new Vuex.Store({
     menu_data: [],
     active_menu_index: 0,
     isCollapse: true,
-    subMunuIndex: ''
+    subMunuIndex: '',
+    paths: [{ path: '/', title: '首页' }]
   },
   getters: {
     getMenuItem: (state) => {
       return state.menu_data.find(item => item.menuid === state.active_menu_index)
     },
-    subMunuIndex: (state) => { return state.subMunuIndex }
+    subMunuIndex: (state) => { return state.subMunuIndex },
+    submenu: (state) => {
+      const menuItem = state.menu_data.find(item => item.menuid === state.active_menu_index)
+      const subMenu = menuItem.childlist.find(e => e.url === state.subMunuIndex)
+      return subMenu
+    }
+
   },
   mutations: {
     SET_TOKEN: (state, token) => {
       state.token = token
+    },
+    SET_PATH: (state, path) => {
+      state.paths.push(path)
+    },
+    SET_PATH_LENGTH: (state, index) => {
+      state.paths.length = index
     },
     SET_USER_NAME: (state, userName) => {
       localStorage.setItem('username', userName)
@@ -160,13 +173,19 @@ const store = new Vuex.Store({
     },
     // 设置当前活动菜单项
     setActiveMenuIndex ({ commit }, payload) {
-      commit('SET_ACTIVE_MENU_INDEX', payload.mainrouter)
+      commit('SET_ACTIVE_MENU_INDEX', payload.index)
     }, // 设置子菜单当前活动选项
     setActiveSubMenuIndex ({ commit }, payload) {
       commit('SET_ACTIVE_SUB_MENU_INDEX', payload.subMunuIndex)
     }, // 设置左侧菜单是否展开
     setIsCollapse ({ commit }, isCollapse) {
       commit('SET_IS_COLLAPSE', isCollapse)
+    },
+    setPath ({ commit }, path) {
+      commit('SET_PATH', path)
+    },
+    setPathLength ({ commit }, index) {
+      commit('SET_PATH_LENGTH', index)
     }
   }
 })

@@ -5,6 +5,7 @@
       v-for="menu in item.childlist"
       :key="menu.url"
       :route="menu.url"
+      @click="clickon"
       :index="menu.url+''">
         <svg-icon :icon-class="svgUrl"/>&nbsp;&nbsp;
         <span slot="title">{{menu.menuname}}</span>
@@ -31,8 +32,18 @@ export default {
     }
   },
   computed: {
+    paths () {
+      return this.$store.state.paths
+    }
   },
   methods: {
+    clickon () {
+      const submenu = this.$store.getters.submenu
+      console.log(submenu)
+      if (this.paths.filter(e => e.title === submenu.menuname).length === 0) {
+        this.$store.dispatch('setPath', { path: submenu.url, title: submenu.menuname })
+      }
+    }
   }
 }
 </script>

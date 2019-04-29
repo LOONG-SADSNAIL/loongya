@@ -1,11 +1,13 @@
 <template>
   <section class="homeMain">
     <div class="homeMainBody">
-      <el-breadcrumb class="homeHeaderBreadcrumb" separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item><a href="/">活动管理</a></el-breadcrumb-item>
-        <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-        <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+      <el-breadcrumb class="homeHeaderBreadcrumb" separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item  v-for="item in paths" :key="item.path" :to="{ path: item.path }">
+            <label :data="item.path" @click="breadcrumbClick($event.currentTarget)">
+              {{item.title}}
+            </label>
+          </el-breadcrumb-item>
+
       </el-breadcrumb>
       <div class="homeSectionMain">
         <transition name="fade-transform" mode="out-in">
@@ -26,13 +28,21 @@ export default {
   },
   data () {
     return {
+      paths: this.$store.state.paths
     }
   },
   computed: {
   },
   methods: {
+    breadcrumbClick (node) {
+      const currentPath = node.attributes.data.nodeValue
+      this.$store.dispatch('setActiveSubMenuIndex', { subMunuIndex: currentPath })
+      const index = this.paths.findIndex(e => e.path === currentPath)
+      this.$store.dispatch('setPathLength', index + 1)
+    }
   }
 }
+
 </script>
 <style>
 </style>

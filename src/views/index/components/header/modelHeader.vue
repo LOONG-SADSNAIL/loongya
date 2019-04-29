@@ -4,7 +4,6 @@
       <svg-icon  icon-class="menuTop"/>
     </el-button>
     <el-menu v-if="menuData.length>0"
-             style="margin-left: -8px;"
              :default-active="activeIndex"
              class="homeHeaderMenu"
              mode="horizontal"
@@ -86,12 +85,13 @@ export default {
       }
     },
     handleSelect (key, keyPath) {
+      console.log(key + '' + keyPath)
       this.$store.dispatch('setActiveMenuIndex', { 'index': key })
-      // const menu = this.$store.getters.getMenuItem
-      // if (menu && menu.childlist.length > 0) {
-      //   const subMenuIndex = menu.childlist[0].menuid
-      //   this.$store.dispatch('setActiveSubMenuIndex', { 'subMunuIndex': subMenuIndex })
-      // }
+      const menu = this.$store.getters.getMenuItem
+      if (menu && menu.childlist.length > 0) {
+        const subMenuIndex = menu.childlist[0].menuid
+        this.$store.dispatch('setActiveSubMenuIndex', { 'subMunuIndex': subMenuIndex })
+      }
     }
   }
 }
