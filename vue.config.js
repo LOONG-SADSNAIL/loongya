@@ -21,6 +21,11 @@ module.exports = {
       .include
       .add(resolve('src/icons/svg'))
       .end()
+    config.module
+      .rule('images')
+      .use('url-loader')
+      .loader('url-loader')
+      .tap(options => Object.assign(options, { limit: 10240 }))
   },
   devServer: {
     host: 'localhost',

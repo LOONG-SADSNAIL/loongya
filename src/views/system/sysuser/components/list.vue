@@ -14,7 +14,7 @@
             <el-row>
               <!--==================================列表查询===========start===================================== -->
               <el-col :span="20">
-                <el-form :inline="true" :model="formInline" class="">
+                <el-form :inline="true" :model="formInline" class="homeMainRowRightForm">
                   <el-form-item>
                     <el-input v-model="formInline.username" placeholder="请输入用户姓名"></el-input>
                   </el-form-item>
@@ -43,13 +43,13 @@
               </el-col>
             </el-row>
             <!--==================================列表头部选择器===========end===================================== -->
-            <!-- ============================列表start=================rgba(0, 0, 0, 0.8)==========================-->
+            <!-- ============================列表start=================rgba(0, 0, 0, 0.2)==========================-->
             <el-table
               class="homeMainRightTable"
               v-loading="loading"
               element-loading-text="拼命加载中"
               element-loading-spinner="el-icon-loading"
-              element-loading-background="rgba(0, 0, 0, 0.8)"
+              element-loading-background="rgba(0, 0, 0, 0.2)"
               border
               fit
               :row-class-name="tableRowClassName"

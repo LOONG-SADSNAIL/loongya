@@ -14,7 +14,7 @@
           <el-row>
             <!--==================================列表查询===========start===================================== -->
             <el-col :span="20">
-              <el-form :inline="true" :model="formInline" class="">
+              <el-form :inline="true" :model="formInline" class="homeMainRowRightForm">
                 <el-form-item>
                   <el-input v-model="formInline.name" placeholder="请输入字典名称"></el-input>
                 </el-form-item>
@@ -49,7 +49,7 @@
             v-loading="loading"
             element-loading-text="拼命加载中"
             element-loading-spinner="el-icon-loading"
-            element-loading-background="rgba(0, 0, 0, 0.8)"
+            element-loading-background="rgba(0, 0, 0, 0.2)"
             border
             fit
             :row-class-name="tableRowClassName"
