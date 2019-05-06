@@ -1,7 +1,6 @@
 <template>
-  <div
-    @mouseenter="mouseenterChangeCollapse"
-    @mouseleave="mouseleaveChangeCollapse"> <!--@mouseenter="mouseenterChangeCollapse"-->
+  <div> <!--    @mouseenter="mouseenterChangeCollapse"-->
+    <!--    @mouseleave="mouseleaveChangeCollapse" -->
     <transition name="el-zoom-in-right">
       <el-menu
         :default-active="subMunuIndex"
