@@ -165,30 +165,4 @@ export default {
 </script>
 
 <style scoped>
-  .el-select, .el-date-editor, .el-cascader {
-    width: 100%;
-  }
-  .avatar-uploader >>> .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader >>> .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 60px;
-    height: 60px;
-    line-height: 60px;
-    text-align: center;
-  }
-  .avatar {
-    width: 60px;
-    height: 60px;
-    display: block;
-  }
 </style>

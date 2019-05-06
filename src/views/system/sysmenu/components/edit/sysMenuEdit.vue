@@ -59,38 +59,47 @@ export default {
   },
   methods: {
     handleAdd () {
-      console.log('新增')
       this.dialogFormVisible = true
       this.rowin = {}
     },
     handleUpdate () {
-      console.log('修改')
       this.dialogFormVisible = true
       this.rowin = this.row
     },
     handleDelete () {
-      console.log('删除')
       this.loading = true
-      del(this.row).then(res => {
+      this.$confirm('此操作将永久删除该信息, 是否继续?', '删除', {
+        distinguishCancelAndClose: true,
+        roundButton: true,
+        center: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        del(this.row).then(res => {
+          this.loading = false
+          if (res.errcode === 0) {
+            this.$emit('getList')
+            this.$message({
+              showClose: true,
+              message: res.errmsg,
+              type: 'success'
+            })
+          } else {
+            this.$message({
+              showClose: true,
+              message: res.errmsg,
+              type: 'error'
+            })
+          }
+        })
+      }).catch(() => {
         this.loading = false
-        if (res.errcode === 0) {
-          this.$emit('getList')
-          this.$message({
-            showClose: true,
-            message: res.errmsg,
-            type: 'success'
-          })
-        } else {
-          this.$message({
-            showClose: true,
-            message: res.errmsg,
-            type: 'error'
-          })
-        }
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
       })
-    },
-    handleUpdatePassword () {
-      console.log('修改密码')
     },
     closeDialog () {
       this.dialogFormVisible = false
@@ -102,17 +111,4 @@ export default {
 }
 </script>
 <style>
-  .el-dropdown-link {
-    cursor: pointer;
-    color: #409EFF;
-  }
-  .el-icon-arrow-down {
-    font-size: 12px;
-  }
-  .dropdown-class {
-    margin-left: 0px !important;
-  }
-  .el-dialog {
-    z-index: 4000;
-  }
 </style>
