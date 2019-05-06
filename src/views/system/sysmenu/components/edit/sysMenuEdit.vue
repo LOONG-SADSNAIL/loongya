@@ -1,57 +1,41 @@
 <template>
-  <el-dropdown>
-    <span class="el-dropdown-link">
-      <svg-icon icon-class="edit"/>
-    </span>
-    <el-dropdown-menu class="dropdown-class" slot="dropdown">
-      <el-dropdown-item  title="新增">
-        <el-button
-          style="font-size: 20px;"
-          @click="handleAdd"
-          type="text">
-          <svg-icon  icon-class="add"/>
-        </el-button>
-      </el-dropdown-item>
-      <el-dropdown-item  title="修改">
-        <el-button
-          style="font-size: 20px;"
-          @click="handleUpdate"
-          type="text">
-          <svg-icon  icon-class="update"/>
-        </el-button>
-      </el-dropdown-item>
-      <el-dropdown-item  title="删除">
-        <el-button
-          style="font-size: 20px;"
-          @click="handleDelete"
-          type="text">
-          <svg-icon  icon-class="delete"/>
-        </el-button>
-      </el-dropdown-item>
-      <el-dropdown-item  title="修改密码">
-        <el-button
-          style="font-size: 20px;"
-          @click="handleUpdatePassword"
-          type="text">
-          <svg-icon  icon-class="updatepassword"/>
-        </el-button>
-      </el-dropdown-item>
-    </el-dropdown-menu>
-    <AddUser
-      :dialog-visible="dialogFormVisible"
+  <div>
+    <el-button
+      style="font-size: 20px;"
+      @click="handleAdd"
+      type="text">
+      <svg-icon  icon-class="add"/>
+    </el-button>
+    <el-button
+      style="font-size: 20px;"
+      @click="handleUpdate"
+      type="text">
+      <svg-icon  icon-class="update"/>
+    </el-button>
+    <el-button
+      :loading="loading"
+      style="font-size: 20px;"
+      @click="handleDelete"
+      type="text">
+      <svg-icon  icon-class="delete"/>
+    </el-button>
+    <add-menu
+      :dialogVisible="dialogFormVisible"
       :readonly="readonly"
+      :row="rowin"
       @closeDialog="closeDialog"
-      :row="row"
+      @getList="getList"
     />
-  </el-dropdown>
+  </div>
 </template>
 
 <script>
-import AddUser from './add'
+import AddMenu from './add'
+import { del } from '@/api/system/sysmenu'
 export default {
   name: 'SysMenuEdit',
   components: {
-    AddUser
+    AddMenu
   },
   props: {
     row: {
@@ -61,9 +45,10 @@ export default {
   },
   data () {
     return {
+      loading: false,
       readonly: false,
       dialogFormVisible: false,
-      formLabelWidth: '120px'
+      rowin: {}
     }
   },
   created () {
@@ -76,18 +61,42 @@ export default {
     handleAdd () {
       console.log('新增')
       this.dialogFormVisible = true
+      this.rowin = {}
     },
     handleUpdate () {
       console.log('修改')
+      this.dialogFormVisible = true
+      this.rowin = this.row
     },
     handleDelete () {
       console.log('删除')
+      this.loading = true
+      del(this.row).then(res => {
+        this.loading = false
+        if (res.errcode === 0) {
+          this.$emit('getList')
+          this.$message({
+            showClose: true,
+            message: res.errmsg,
+            type: 'success'
+          })
+        } else {
+          this.$message({
+            showClose: true,
+            message: res.errmsg,
+            type: 'error'
+          })
+        }
+      })
     },
     handleUpdatePassword () {
       console.log('修改密码')
     },
     closeDialog () {
       this.dialogFormVisible = false
+    },
+    getList () {
+      this.$emit('getList')
     }
   }
 }

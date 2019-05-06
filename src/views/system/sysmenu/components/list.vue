@@ -15,7 +15,7 @@
           <el-row>
             <!--==================================列表查询===========start===================================== -->
             <el-col :span="20">
-              <el-form :inline="true" :model="formInline" class="">
+              <el-form  class="homeMainRowRightForm" :inline="true" :model="formInline">
                 <el-form-item> <!-- ==============todo 2===============-->
                   <el-input v-model="formInline.menuname" placeholder="请输入菜单名称"></el-input>
                 </el-form-item>
@@ -50,7 +50,7 @@
             v-loading="loading"
             element-loading-text="拼命加载中"
             element-loading-spinner="el-icon-loading"
-            element-loading-background="rgba(0, 0, 0, 0.8)"
+            element-loading-background="rgba(0, 0, 0, 0.2)"
             border
             fit
             :row-class-name="tableRowClassName"
@@ -62,8 +62,8 @@
             <!-- ==============todo 3===============-->
             <el-table-column
               class="edit-class"
-              width="80"
-              fixed="left"
+              width="180"
+              fixed="right"
               align="center">
               <template slot="header">
                 操作
@@ -72,6 +72,7 @@
                 <!-- ==============todo 4===============-->
                 <SysMenuEdit
                   :row="scope.row"
+                  @getList="getList"
                 />
               </template>
             </el-table-column>

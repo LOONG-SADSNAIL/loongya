@@ -1,3 +1,8 @@
+
+.v-modal {
+    z-index: 1 !important;
+}
+
 .console-base-bar * {
     margin: 0;
     padding: 0;
@@ -6,9 +11,8 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-.el-form-item {
-    padding: 0!important;
-    margin-bottom: 5px !important;
+.homeMainRowRightForm{
+    height: 20px;
 }
 .el-table {
     overflow: unset;
@@ -131,7 +135,6 @@
 // ==================modelAside.vue=============start==========================
 
 .homeAside {
-    padding: 4px 0;
     border-top: 1px solid hsla(0,0%,100%,.1);
     border-bottom: 1px solid hsla(0,0%,100%,.1);
     white-space: nowrap;
