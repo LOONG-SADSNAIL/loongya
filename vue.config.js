@@ -31,7 +31,7 @@ module.exports = {
     host: 'localhost',
     port: 8888,
     open: true,
-    proxy: 'http://localhost:8085',
+    proxy: 'http://localhost:8087',
     overlay: {
       warnings: true,
       errors: true
