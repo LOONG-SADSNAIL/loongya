@@ -13,3 +13,9 @@ export function treeList (data) {
     data: data
   })
 }
+export function getByOrganno (data) {
+  return request({
+    url: '/sysBaseOrgan/getByOrganno.json',
+    data: data
+  })
+}

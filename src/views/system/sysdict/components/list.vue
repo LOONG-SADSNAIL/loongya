@@ -127,7 +127,7 @@ export default {
         orderby: 'pid',
         asc: 'ascending',
         total: 0,
-        pid: ''
+        pid: '0'
       },
       loading: false,
       showTableHeader: [{}], // 列表头部实际显示数据

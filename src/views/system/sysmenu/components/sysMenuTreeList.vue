@@ -28,7 +28,7 @@ export default {
   data () {
     return {
       indent: 20,
-      currentId: 'M',
+      currentId: 'M01',
       data: [{ name: '顶级', id: 'M' }],
       defaultProps: {
         label: 'menuname',

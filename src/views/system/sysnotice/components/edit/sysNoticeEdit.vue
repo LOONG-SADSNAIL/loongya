@@ -1,57 +1,41 @@
 <template>
-  <el-dropdown>
-    <span class="el-dropdown-link">
-      <svg-icon icon-class="edit"/>
-    </span>
-    <el-dropdown-menu class="dropdown-class" slot="dropdown">
-      <el-dropdown-item  title="新增">
-        <el-button
-          style="font-size: 20px;"
-          @click="handleAdd"
-          type="text">
-          <svg-icon  icon-class="add"/>
-        </el-button>
-      </el-dropdown-item>
-      <el-dropdown-item  title="修改">
-        <el-button
-          style="font-size: 20px;"
-          @click="handleUpdate"
-          type="text">
-          <svg-icon  icon-class="update"/>
-        </el-button>
-      </el-dropdown-item>
-      <el-dropdown-item  title="删除">
-        <el-button
-          style="font-size: 20px;"
-          @click="handleDelete"
-          type="text">
-          <svg-icon  icon-class="delete"/>
-        </el-button>
-      </el-dropdown-item>
-      <el-dropdown-item  title="修改密码">
-        <el-button
-          style="font-size: 20px;"
-          @click="handleUpdatePassword"
-          type="text">
-          <svg-icon  icon-class="updatepassword"/>
-        </el-button>
-      </el-dropdown-item>
-    </el-dropdown-menu>
-    <AddUser
-      :dialog-visible="dialogFormVisible"
+  <div>
+    <el-button
+      style="font-size: 20px;"
+      @click="handleAdd"
+      type="text">
+      <svg-icon  icon-class="add"/>
+    </el-button>
+    <el-button
+      style="font-size: 20px;"
+      @click="handleUpdate"
+      type="text">
+      <svg-icon  icon-class="update"/>
+    </el-button>
+    <el-button
+      :loading="loading"
+      style="font-size: 20px;"
+      @click="handleDelete"
+      type="text">
+      <svg-icon  icon-class="delete"/>
+    </el-button>
+    <add-notice
+      :dialogVisible="dialogFormVisible"
       :readonly="readonly"
+      :row="rowin"
       @closeDialog="closeDialog"
-      :row="row"
+      @getList="getList"
     />
-  </el-dropdown>
+  </div>
 </template>
 
 <script>
-import AddUser from './add'
+import AddNotice from './add'
+import { del } from '@/api/system/sysnotice'
 export default {
-  name: 'SysRoleEdit',
+  name: 'SysNoticeEdit',
   components: {
-    AddUser
+    AddNotice
   },
   props: {
     row: {
@@ -61,9 +45,10 @@ export default {
   },
   data () {
     return {
+      loading: false,
       readonly: false,
       dialogFormVisible: false,
-      formLabelWidth: '120px'
+      rowin: {}
     }
   },
   created () {
@@ -74,36 +59,56 @@ export default {
   },
   methods: {
     handleAdd () {
-      console.log('新增')
       this.dialogFormVisible = true
+      this.rowin = {}
     },
     handleUpdate () {
-      console.log('修改')
+      this.dialogFormVisible = true
+      this.rowin = this.row
     },
     handleDelete () {
-      console.log('删除')
-    },
-    handleUpdatePassword () {
-      console.log('修改密码')
+      this.loading = true
+      this.$confirm('此操作将永久删除该信息, 是否继续?', '删除', {
+        distinguishCancelAndClose: true,
+        roundButton: true,
+        center: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        del(this.row).then(res => {
+          this.loading = false
+          if (res.errcode === 0) {
+            this.$emit('getList')
+            this.$message({
+              showClose: true,
+              message: res.errmsg,
+              type: 'success'
+            })
+          } else {
+            this.$message({
+              showClose: true,
+              message: res.errmsg,
+              type: 'error'
+            })
+          }
+        })
+      }).catch(() => {
+        this.loading = false
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
     },
     closeDialog () {
       this.dialogFormVisible = false
+    },
+    getList () {
+      this.$emit('getList')
     }
   }
 }
 </script>
 <style>
-  .el-dropdown-link {
-    cursor: pointer;
-    color: #409EFF;
-  }
-  .el-icon-arrow-down {
-    font-size: 12px;
-  }
-  .dropdown-class {
-    margin-left: 0px !important;
-  }
-  .el-dialog {
-    z-index: 4000;
-  }
 </style>

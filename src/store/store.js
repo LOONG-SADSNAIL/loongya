@@ -16,7 +16,7 @@ const store = new Vuex.Store({
     roles: [],
     menu_data: [],
     active_menu_index: 0,
-    isCollapse: true,
+    isCollapse: false,
     subMunuIndex: '',
     paths: [{ path: '/', title: '首页' }]
   },

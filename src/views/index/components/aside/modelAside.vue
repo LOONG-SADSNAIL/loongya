@@ -47,7 +47,7 @@ export default {
   methods: {
     handleSelect (key, keyPath) {
       this.$store.dispatch('setActiveSubMenuIndex', { 'subMunuIndex': key })
-      this.$store.dispatch('setIsCollapse', true)
+      // this.$store.dispatch('setIsCollapse', true)
     },
     mouseenterChangeCollapse () {
       this.$store.dispatch('setIsCollapse', false)

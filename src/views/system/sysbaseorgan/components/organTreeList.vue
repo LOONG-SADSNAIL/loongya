@@ -28,7 +28,7 @@ export default {
   data () {
     return {
       indent: 20,
-      currentno: '001',
+      currentno: localStorage.getItem('organno'),
       data: [{ fullname: '轻松环品', organno: '001' }],
       defaultProps: {
         label: 'fullname',
@@ -45,9 +45,8 @@ export default {
   methods: {
     loadNode (node, resolve) {
       if (node.level === 0) {
-        const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-        this.$emit('getOrganno', userInfo.organno)
-        return resolve([{ fullname: localStorage.getItem('organname'), organno: userInfo.organno }])
+        this.$emit('getOrganno', this.currentno)
+        return resolve([{ fullname: localStorage.getItem('organname'), organno: this.currentno }])
       }
       treeList({ upperno: node.data.organno }).then(res => {
         if (res.errcode === 0) {

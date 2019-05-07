@@ -4,7 +4,12 @@
       通知管理
     </div>
     <el-row class="homeMainRow">
-      <el-col class="homeMainRowColRight" :span="24">
+      <el-col class="homeMainRowColLeft" :span="4">
+        <OrganTreeList
+          @getOrganno="getOrganno"
+        />
+      </el-col>
+      <el-col class="homeMainRowColRight" :span="20">
         <div class="homeMainRowColRightTable">
           <el-row>
             <!--==================================列表查询===========start===================================== -->
@@ -56,8 +61,8 @@
             <!-- ==============todo 3===============-->
             <el-table-column
               class="edit-class"
-              width="80"
-              fixed="left"
+              width="150"
+              fixed="right"
               align="center">
               <template slot="header">
                 操作
@@ -66,6 +71,7 @@
                 <!-- ==============todo 4===============-->
                 <SysNoticeEdit
                   :row="scope.row"
+                  @getList="getList"
                 />
               </template>
             </el-table-column>
@@ -107,9 +113,11 @@
 // ==============todo5
 import { list } from '@/api/system/sysnotice'
 import SysNoticeEdit from './edit/sysNoticeEdit'
+import OrganTreeList from '@/views/system/sysbaseorgan/components/organTreeList'
 export default {
   name: 'SysNoticeList',
   components: { // ==============todo6
+    OrganTreeList,
     SysNoticeEdit
   },
   data () {
@@ -122,6 +130,7 @@ export default {
         orderby: 'id',
         asc: 'ascending',
         total: 0,
+        organno: localStorage.getItem('organno'),
         id: ''
       },
       loading: false,
@@ -136,7 +145,7 @@ export default {
   computed: {
   },
   mounted () {
-    this.getList()
+    // this.getList()
   },
   methods: {
     getList (page) { // 列表获取
@@ -155,6 +164,10 @@ export default {
           this.handleShowHeader()
         }
       })
+    },
+    getOrganno (organno) {
+      this.formInline.organno = organno
+      this.getList()
     },
     onSubmit () { // 查询提交
       this.formInline.id = '' // ==============todo9

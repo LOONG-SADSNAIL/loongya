@@ -28,7 +28,7 @@ export default {
   data () {
     return {
       indent: 20,
-      currentId: '0',
+      currentId: '69',
       data: [{ name: '顶级', id: '0' }],
       defaultProps: {
         label: 'name',

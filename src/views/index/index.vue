@@ -41,6 +41,7 @@ export default {
   data () {
     return {
       loading: false,
+      organno: localStorage.getItem('organno'),
       activeName: '',
       data: []
     }
@@ -56,7 +57,7 @@ export default {
     },
     getList () { // 列表获取
       this.loading = true
-      list({}).then(res => {
+      list({ organno: this.organno }).then(res => {
         this.loading = false
         if (res.errcode === 0) {
           this.data = res.data.tableData

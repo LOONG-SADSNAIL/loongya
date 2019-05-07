@@ -126,8 +126,7 @@ export default {
         orderby: 'organno',
         asc: 'ascending',
         total: 0,
-        organno: '001',
-        userorganno: localStorage.getItem('organno')
+        organno: '001'
       },
       loading: false,
       showTableHeader: [{}], // 列表头部实际显示数据

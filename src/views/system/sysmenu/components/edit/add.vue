@@ -48,7 +48,14 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="菜单图标" prop="icon">
-              <el-input v-model.trim="formData.icon" :readonly="readonly" placeholder="请输入菜单图标"/>
+              <el-select v-model="formData.icon" :readonly="readonly" placeholder="请选择">
+                <el-option
+                  v-for="item in dictList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.code">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -62,6 +69,7 @@
 
 <script>
 import { edit, treeList } from '@/api/system/sysmenu'
+import { treeList as dictTreeList } from '@/api/system/sysdict'
 export default {
   name: 'SysMenu',
   components: {
@@ -86,6 +94,7 @@ export default {
     return {
       loading: false,
       menuList: [],
+      dictList: [],
       formData: {
         id: 0,
         menuname: '',
@@ -103,10 +112,6 @@ export default {
     }
   },
   computed: {
-    svgs () {
-      const files = require.context('@/icons/svg', false, /\.svg$/).keys()
-      return files
-    }
   },
   mounted () {
   },
@@ -121,6 +126,7 @@ export default {
       console.log('开启')
       this.formData = this.row
       this.getMenuList()
+      this.getDictList()
     },
     onSubmit () {
       this.$refs['formData'].validate((valid) => {
@@ -157,6 +163,13 @@ export default {
             menuname: '顶级'
           })
           this.menuList = res.data
+        }
+      })
+    },
+    getDictList () {
+      dictTreeList({ pid: 69 }).then(res => {
+        if (res.errcode === 0) {
+          this.dictList = res.data
         }
       })
     }

@@ -127,7 +127,6 @@ export default {
         orderby: 'organno',
         asc: 'ascending',
         total: 0,
-        userorganno: localStorage.getItem('organno'),
         upperno: '001'
       },
       loading: false,
