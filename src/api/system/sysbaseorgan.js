@@ -6,7 +6,18 @@ export function list (data) {
     data: data
   })
 }
-
+export function edit (data) {
+  return request({
+    url: '/sysBaseOrgan/edit.json',
+    data: data
+  })
+}
+export function del (data) {
+  return request({
+    url: '/sysBaseOrgan/del.json',
+    data: data
+  })
+}
 export function treeList (data) {
   return request({
     url: '/sysBaseOrgan/treeList.json',

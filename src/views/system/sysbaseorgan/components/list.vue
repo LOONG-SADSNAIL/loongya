@@ -61,8 +61,8 @@
             style="width: 100%">
             <el-table-column
               class="edit-class"
-              width="80"
-              fixed="left"
+              width="150"
+              fixed="right"
               align="center">
               <template slot="header">
                 操作
@@ -70,6 +70,7 @@
               <template slot-scope="scope">
                 <SysBaseOrganEdit
                   :row="scope.row"
+                  @getList="getList"
                 />
               </template>
             </el-table-column>
