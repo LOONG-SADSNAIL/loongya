@@ -48,7 +48,7 @@
           </el-col>
         </el-row>
         <el-form-item>
-          <el-button :loading="loading" type="primary" @click="onSubmit">保存</el-button>
+          <el-button size="small" :loading="loading" type="primary" @click="onSubmit">保存</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -68,11 +68,11 @@ export default {
     },
     readonly: {
       type: Boolean,
-      required: true
+      default: false
     },
     row: {
       type: Object,
-      default () {
+      default: function () {
         return {}
       }
     }
@@ -111,6 +111,9 @@ export default {
       console.log('开启')
       this.formData = this.row
       this.getDictList()
+      this.$nextTick(() => {
+        this.$refs['formData'].clearValidate()
+      })
     },
     onSubmit () {
       this.$refs['formData'].validate((valid) => {

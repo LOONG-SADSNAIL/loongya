@@ -9,58 +9,81 @@
       :modal-append-to-body="loading"
       @open="handleOpen">
       <el-form ref="formData" :model="formData" :rules="rules" size="mini" label-position="right" label-width="90px">
-        <el-row :gutter="20">
+        <el-row v-if="!row.id" :gutter="20">
           <el-col :span="12">
-            <el-form-item label="机构编码" prop="organno">
-              <el-input v-model.trim="formData.organno" :readonly="readonly" placeholder="请输入机构编码"/>
+            <el-form-item label="登录账号" prop="username">
+              <el-input v-model="formData.username" :readonly="readonly" placeholder="请输入登录账号"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="菜单id" prop="menuid">
-              <el-input v-model.trim="formData.menuid" :readonly="readonly" placeholder="请输入菜单id"/>
+            <el-form-item label="真实姓名" prop="truename">
+              <el-input v-model="formData.truename" :readonly="readonly" placeholder="请输入真实姓名"/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row v-if="!row.id" :gutter="20">
+          <el-col  :span="12">
+            <el-form-item label="登录密码" prop="password">
+              <el-input type="password" v-model="formData.password" :readonly="readonly" placeholder="请输入登录密码"/>
+            </el-form-item>
+          </el-col>
+          <el-col v-if="!row.id" :span="12">
+            <el-form-item label="手机号码" prop="mtel">
+              <el-input v-model="formData.mtel" :readonly="readonly" placeholder="请输入手机号码"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="父级菜单id" prop="upperno">
-              <el-select v-model="formData.upperno" placeholder="请选择">
-                <el-option
-                  v-for="item in menuList"
-                  :key="item.menuid"
-                  :label="item.menuname"
-                  :value="item.menuid">
-                </el-option>
-              </el-select>
+            <el-form-item label="机构名称" prop="fullname">
+              <el-input v-model="formData.fullname" :readonly="readonly" placeholder="请输入机构名称"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="url" prop="url">
-              <el-input v-model.trim="formData.url" :readonly="readonly" placeholder="请输入url"/>
+            <el-form-item label="机构简称" prop="shortname">
+              <el-input v-model="formData.shortname" :readonly="readonly" placeholder="请输入机构简称"/>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="备注" prop="remarks">
-              <el-input v-model.trim="formData.remarks" :readonly="readonly" placeholder="请输入备注"/>
+            <el-form-item label="法人代表" prop="organlegal">
+              <el-input v-model="formData.organlegal" :readonly="readonly" placeholder="请输入法人代表"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="菜单图标" prop="icon">
-              <el-select v-model="formData.icon" :readonly="readonly" placeholder="请选择">
-                <el-option
-                  v-for="item in dictList"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.code">
-                </el-option>
-              </el-select>
+            <el-form-item label="联系人" prop="contacter">
+              <el-input v-model="formData.contacter" :readonly="readonly" placeholder="请输入联系人"/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="联系电话" prop="contacttel">
+              <el-input v-model="formData.contacttel" :readonly="readonly" placeholder="请输入联系电话"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="公司地址" prop="address">
+              <el-input v-model="formData.address" :readonly="readonly" placeholder="请输入公司地址"/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row v-if="!row.id" :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="机构归属" prop="organno">
+              <el-autocomplete
+                class="autoCompleteClass"
+                v-model="fullname"
+                :fetch-suggestions="querySearch"
+                placeholder="请输入归属机构名称"
+                @select="handleSelect"
+              ></el-autocomplete>
             </el-form-item>
           </el-col>
         </el-row>
         <el-form-item>
-          <el-button :loading="loading" type="primary" @click="onSubmit">保存</el-button>
+          <el-button class="buttonClass" :loading="loading" type="primary" @click="onSubmit">保存</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -68,7 +91,8 @@
 </template>
 
 <script>
-import { edit, treeList } from '@/api/system/sysbaseorgan'
+import { edit, list, getByOrganno } from '@/api/system/sysbaseorgan'
+import { getUserByOrganno } from '@/api/system/sysuser'
 export default {
   name: 'SysBaseorgan',
   components: {
@@ -80,11 +104,11 @@ export default {
     },
     readonly: {
       type: Boolean,
-      required: true
+      default: false
     },
     row: {
       type: Object,
-      default () {
+      default: function () {
         return {}
       }
     }
@@ -92,21 +116,32 @@ export default {
   data () {
     return {
       loading: false,
-      menuList: [],
-      dictList: [],
+      currentno: localStorage.getItem('organno'),
+      restaurants: [],
+      fullname: '',
       formData: {
-        id: 0,
-        menuname: '',
-        menuid: '',
-        upperno: '',
-        url: '',
-        remarks: '',
-        icon: ''
+        id: '',
+        username: '',
+        password: '',
+        truename: '',
+        mtel: '',
+        fullname: '',
+        shortname: '',
+        organlegal: '',
+        contacter: '',
+        contacttel: '',
+        address: '',
+        organno: ''
       },
       rules: {
-        menuname: [{ required: true, trigger: 'blur', message: '菜单名不能为空' }],
-        menuid: [{ required: true, trigger: 'blur', message: '菜单id不能为空' }],
-        icon: [{ required: true, trigger: 'blur', message: '菜单图标不能为空' }]
+        username: [{ required: true, trigger: 'blur', message: '姓名不能为空' }],
+        password: [{ required: true, trigger: 'blur', message: '密码不能为空' }],
+        mtel: [{ required: true, trigger: 'blur', pattern: /^1[3|4|5|7|8|9]\d{9}$/, message: '手机号格式不正确' }],
+        truename: [{ required: true, trigger: 'blur', message: '真实姓名不能为空' }],
+        fullname: [{ required: true, trigger: 'blur', message: '机构名称不能为空' }],
+        contacter: [{ required: true, trigger: 'blur', message: '联系人不能为空' }],
+        contacttel: [{ required: true, trigger: 'blur', pattern: /^1[3|4|5|7|8|9]\d{9}$/, message: '联系人电话格式不正确' }],
+        organno: [{ required: true, trigger: 'blur', message: '机构归属不能为空' }]
       }
     }
   },
@@ -122,10 +157,56 @@ export default {
       this.$emit('closeDialog')
     },
     handleOpen () {
+      // this.formData = { id: '' }
       console.log('开启')
-      this.formData = this.row
-      this.getMenuList()
-      this.getDictList()
+      if (this.row.id) {
+        this.formData = Object.assign({}, this.formData, this.row)
+        console.log(this.formData)
+        this.getUserByOrganno()
+      }
+      this.getOrganName()
+      this.$nextTick(() => {
+        this.$refs['formData'].clearValidate()
+      })
+    },
+    getUserByOrganno () {
+      getUserByOrganno({ organno: this.formData.organno }).then(res => {
+        if (res.errcode === 0 && res.data) {
+          this.formData.username = res.data.username
+          this.formData.truename = res.data.truename
+          this.formData.mtel = res.data.mtel
+          this.formData = Object.assign({}, this.formData, {
+            username: res.data.username,
+            mtel: res.data.mtel,
+            truename: res.data.truename
+          })
+        }
+      })
+    },
+    querySearch (queryString, cb) {
+      this.restaurants = []
+      list({ fullname: queryString, userorganno: this.currentno }).then(res => {
+        if (res.errcode === 0) {
+          res.data.tableData.forEach(e => {
+            this.restaurants.push({ value: e.fullname, organno: e.organno })
+          })
+        }
+        cb(this.restaurants)
+      })
+    },
+    getOrganName () {
+      getByOrganno({ organno: this.formData.organno ? this.formData.organno : this.currentno }).then(res => {
+        if (res.errcode === 0 && res.data) {
+          this.fullname = res.data.fullname
+          this.formData = Object.assign({}, this.formData, {
+            organno: res.data.organno
+          })
+        }
+      })
+    },
+    handleSelect (item) {
+      console.log(item)
+      this.formData.organno = item.organno
     },
     onSubmit () {
       this.$refs['formData'].validate((valid) => {
@@ -151,17 +232,6 @@ export default {
           })
         } else {
           return false
-        }
-      })
-    },
-    getMenuList () {
-      treeList({ menuid: 'M' }).then(res => {
-        if (res.errcode === 0) {
-          res.data.unshift({
-            menuid: 'M',
-            menuname: '顶级'
-          })
-          this.menuList = res.data
         }
       })
     }

@@ -12,15 +12,18 @@
       </el-col>
       <el-col class="homeMainRowColRight"  :span="20">
         <div class="homeMainRowColRightTable">
-          <el-row>
+          <el-row class="homeMainTableSearch">
+            <el-col :span="2">
+              <el-button class="buttonaddclass" size="mini" type="primary" @click="handleAdd">新增</el-button>
+            </el-col>
             <!--==================================列表查询===========start===================================== -->
-            <el-col :span="20">
+            <el-col :span="18">
               <el-form  class="homeMainRowRightForm" :inline="true" :model="formInline">
                 <el-form-item> <!-- ==============todo 2===============-->
-                  <el-input v-model="formInline.menuname" placeholder="请输入菜单名称"></el-input>
+                  <el-input size="mini" v-model="formInline.menuname" placeholder="请输入菜单名称"></el-input>
                 </el-form-item>
                 <el-form-item>
-                  <el-button type="primary" @click="onSubmit">查询</el-button>
+                  <el-button size="mini" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
                 </el-form-item>
               </el-form>
             </el-col>
@@ -86,6 +89,7 @@
               v-for="header in showTableHeader"
               :key="header.prop"
               :prop="header.prop"
+              :width="header.width"
               sortable
               resizable
               show-overflow-tooltip
@@ -107,6 +111,10 @@
         </div>
       </el-col>
     </el-row>
+    <AddUser
+      :dialog-visible="dialogFormVisible"
+      @closeDialog="closeDialog"
+    />
   </div>
 </template>
 
@@ -115,14 +123,17 @@
 import { list } from '@/api/system/sysmenu'
 import MenuTreeList from './sysMenuTreeList'
 import SysMenuEdit from './edit/sysMenuEdit'
+import AddUser from './edit/add'
 export default {
   name: 'SysDictList',
   components: { // ==============todo6
     MenuTreeList,
-    SysMenuEdit
+    SysMenuEdit,
+    AddUser
   },
   data () {
     return {
+      dialogFormVisible: false,
       checkList: [],
       formInline: { // ==============todo7
         menuname: '',
@@ -174,6 +185,10 @@ export default {
       this.formInline.menuid = '' // ==============todo9
       this.getList()
     },
+    handleAdd () {
+      console.log('新增')
+      this.dialogFormVisible = true
+    },
     handleShowHeader () { // 列表头部显示处理
       let showHeaders = []
       if (this.checkList.length > 0) {
@@ -201,6 +216,9 @@ export default {
     pageHandleCurrentChange (val) { // 当前页修改
       this.formInline.page = val
       this.getList(val)
+    },
+    closeDialog () {
+      this.dialogFormVisible = false
     },
     tableRowClassName ({ row, rowIndex }) { // 列表样式显示
       if (rowIndex === 1) {

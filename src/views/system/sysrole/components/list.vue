@@ -6,15 +6,18 @@
     <el-row class="homeMainRow">
       <el-col class="homeMainRowColRight" :span="24">
         <div class="homeMainRowColRightTable">
-            <el-row>
+            <el-row class="homeMainTableSearch">
+            <el-col :span="2">
+              <el-button class="buttonaddclass" size="mini" type="primary" @click="handleAdd">新增</el-button>
+            </el-col>
               <!--==================================列表查询===========start===================================== -->
-              <el-col :span="20">
+              <el-col :span="18">
                 <el-form :inline="true" :model="formInline" class="homeMainRowRightForm">
                   <el-form-item> <!-- ==============todo 2===============-->
-                    <el-input v-model="formInline.rolename" placeholder="请输入角色名称"></el-input>
+                    <el-input  size="mini" v-model="formInline.rolename" placeholder="请输入角色名称"></el-input>
                   </el-form-item>
                   <el-form-item>
-                    <el-button type="primary" @click="onSubmit">查询</el-button>
+                    <el-button size="mini" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
                   </el-form-item>
                 </el-form>
               </el-col>
@@ -101,6 +104,10 @@
           </div>
       </el-col>
     </el-row>
+    <AddUser
+      :dialog-visible="dialogFormVisible"
+      @closeDialog="closeDialog"
+    />
   </div>
 </template>
 
@@ -108,13 +115,16 @@
 // ==============todo5
 import { list } from '@/api/system/sysrole'
 import SysRoleEdit from './edit/sysRoleEdit'
+import AddUser from './edit/add'
 export default {
   name: 'SysRoleList',
   components: { // ==============todo6
-    SysRoleEdit
+    SysRoleEdit,
+    AddUser
   },
   data () {
     return {
+      dialogFormVisible: false,
       checkList: [],
       formInline: { // ==============todo7
         rolename: '',
@@ -161,6 +171,10 @@ export default {
       this.formInline.id = '' // ==============todo9
       this.getList()
     },
+    handleAdd () {
+      console.log('新增')
+      this.dialogFormVisible = true
+    },
     handleShowHeader () { // 列表头部显示处理
       let showHeaders = []
       if (this.checkList.length > 0) {
@@ -188,6 +202,9 @@ export default {
     pageHandleCurrentChange (val) { // 当前页修改
       this.formInline.page = val
       this.getList(val)
+    },
+    closeDialog () {
+      this.dialogFormVisible = false
     },
     tableRowClassName ({ row, rowIndex }) { // 列表样式显示
       if (rowIndex === 1) {

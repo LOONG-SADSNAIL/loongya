@@ -1,24 +1,22 @@
 <template>
   <div>
-    <el-button
-      style="font-size: 20px;"
-      @click="handleAdd"
-      type="text">
-      <svg-icon  icon-class="add"/>
-    </el-button>
-    <el-button
-      style="font-size: 20px;"
-      @click="handleUpdate"
-      type="text">
-      <svg-icon  icon-class="update"/>
-    </el-button>
-    <el-button
-      :loading="loading"
-      style="font-size: 20px;"
-      @click="handleDelete"
-      type="text">
-      <svg-icon  icon-class="delete"/>
-    </el-button>
+    <el-tooltip class="item" effect="dark" content="修改" placement="top-start">
+      <el-button
+        class="tableButtonClass"
+        @click="handleUpdate"
+        type="text">
+        <svg-icon  icon-class="update"/>
+      </el-button>
+    </el-tooltip>
+    <el-tooltip class="item" effect="dark" content="删除" placement="top-start">
+      <el-button
+        :loading="loading"
+        class="tableButtonClass"
+        @click="handleDelete"
+        type="text">
+        <svg-icon  icon-class="delete"/>
+      </el-button>
+    </el-tooltip>
     <add-dict
       :dialogVisible="dialogFormVisible"
       :readonly="readonly"
@@ -58,10 +56,6 @@ export default {
   mounted () {
   },
   methods: {
-    handleAdd () {
-      this.dialogFormVisible = true
-      this.rowin = {}
-    },
     handleUpdate () {
       this.dialogFormVisible = true
       this.rowin = this.row

@@ -6,7 +6,7 @@
     <el-dropdown-menu class="dropdown-class" slot="dropdown">
       <el-dropdown-item  title="新增">
         <el-button
-          style="font-size: 20px;"
+          class="tableButtonClass"
           @click="handleAdd"
           type="text">
           <svg-icon  icon-class="add"/>
@@ -14,7 +14,7 @@
       </el-dropdown-item>
       <el-dropdown-item  title="修改">
         <el-button
-          style="font-size: 20px;"
+          class="tableButtonClass"
           @click="handleUpdate"
           type="text">
           <svg-icon  icon-class="update"/>
@@ -22,7 +22,7 @@
       </el-dropdown-item>
       <el-dropdown-item  title="删除">
         <el-button
-          style="font-size: 20px;"
+          class="tableButtonClass"
           @click="handleDelete"
           type="text">
           <svg-icon  icon-class="delete"/>
@@ -30,7 +30,7 @@
       </el-dropdown-item>
       <el-dropdown-item  title="修改密码">
         <el-button
-          style="font-size: 20px;"
+          class="tableButtonClass"
           @click="handleUpdatePassword"
           type="text">
           <svg-icon  icon-class="updatepassword"/>

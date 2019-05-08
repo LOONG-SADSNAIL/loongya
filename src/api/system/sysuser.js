@@ -6,3 +6,9 @@ export function list (data) {
     data: data
   })
 }
+export function getUserByOrganno (data) {
+  return request({
+    url: '/sysuser/getUserByOrganno.json',
+    data: data
+  })
+}

@@ -11,15 +11,18 @@
       </el-col>
       <el-col class="homeMainRowColRight" :span="20">
         <div class="homeMainRowColRightTable">
-          <el-row>
+          <el-row class="homeMainTableSearch">
+            <el-col :span="2">
+              <el-button class="buttonaddclass" size="mini" type="primary" @click="handleAdd">新增</el-button>
+            </el-col>
             <!--==================================列表查询===========start===================================== -->
-            <el-col :span="20">
+            <el-col :span="18">
               <el-form :inline="true" :model="formInline" class="homeMainRowRightForm">
                 <el-form-item>
-                  <el-input v-model="formInline.fullname" placeholder="请输入机构名称"></el-input>
+                  <el-input size="mini" v-model="formInline.fullname" placeholder="请输入机构名称"></el-input>
                 </el-form-item>
                 <el-form-item>
-                  <el-button type="primary" @click="onSubmit">查询</el-button>
+                  <el-button size="mini" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
                 </el-form-item>
               </el-form>
             </el-col>
@@ -28,11 +31,10 @@
             <el-col class="homeSearchHeaderChange" :span="4">
               <el-dropdown
                 :hide-on-click="false"
-                @visible-change="visibleChangeClick"
-              >
-        <span class="homeSearchHeaderChangeSvg">
-          <svg-icon icon-class="tablemenu"/>
-        </span>
+                @visible-change="visibleChangeClick">
+                <span class="homeSearchHeaderChangeSvg">
+                  <svg-icon icon-class="tablemenu"/>
+                </span>
                 <el-dropdown-menu class="homeMainRightMenuChange" slot="dropdown">
                   <el-checkbox-group v-model="checkList">
                     <el-dropdown-item  v-for="item in tableHeader" :key="item.prop">
@@ -105,6 +107,10 @@
         </div>
       </el-col>
     </el-row>
+    <AddUser
+      :dialog-visible="dialogFormVisible"
+      @closeDialog="closeDialog"
+    />
   </div>
 </template>
 
@@ -112,14 +118,17 @@
 import { list } from '@/api/system/sysbaseorgan'
 import OrganTreeList from './organTreeList'
 import SysBaseOrganEdit from './edit/sysBaseOrganEdit'
+import AddUser from './edit/add'
 export default {
   name: 'SysUserList',
   components: {
     OrganTreeList,
+    AddUser,
     SysBaseOrganEdit
   },
   data () {
     return {
+      dialogFormVisible: false,
       checkList: [],
       formInline: {
         fullname: '',
@@ -170,6 +179,10 @@ export default {
     onSubmit () { // 查询提交
       this.getList()
     },
+    handleAdd () {
+      console.log('新增')
+      this.dialogFormVisible = true
+    },
     handleShowHeader () { // 列表头部显示处理
       let showHeaders = []
       if (this.checkList.length > 0) {
@@ -197,6 +210,9 @@ export default {
     pageHandleCurrentChange (val) { // 当前页修改
       this.formInline.page = val
       this.getList(val)
+    },
+    closeDialog () {
+      this.dialogFormVisible = false
     },
     tableRowClassName ({ row, rowIndex }) { // 列表样式显示
       if (rowIndex === 1) {
