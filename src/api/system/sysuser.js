@@ -12,3 +12,15 @@ export function getUserByOrganno (data) {
     data: data
   })
 }
+export function edit (data) {
+  return request({
+    url: '/sysuser/edit.json',
+    data: data
+  })
+}
+export function del (data) {
+  return request({
+    url: '/sysuser/del.json',
+    data: data
+  })
+}

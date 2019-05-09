@@ -72,7 +72,7 @@ export default {
       restaurants: [],
       fullname: '',
       formData: {
-        id: 0,
+        id: '',
         title: '',
         type: '',
         organno: '',

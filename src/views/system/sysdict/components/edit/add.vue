@@ -82,7 +82,7 @@ export default {
       loading: false,
       dictList: [],
       formData: {
-        id: 0,
+        id: '',
         name: '',
         pid: '',
         tips: '',
@@ -146,7 +146,7 @@ export default {
       treeList({ pid: 0 }).then(res => {
         if (res.errcode === 0) {
           res.data.unshift({
-            id: 0,
+            id: '',
             name: '顶级'
           })
           this.dictList = res.data

@@ -96,7 +96,7 @@ export default {
       menuList: [],
       dictList: [],
       formData: {
-        id: 0,
+        id: '',
         menuname: '',
         menuid: '',
         upperno: '',

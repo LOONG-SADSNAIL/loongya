@@ -6,3 +6,15 @@ export function list (data) {
     data: data
   })
 }
+export function edit (data) {
+  return request({
+    url: '/sysrole/edit.json',
+    data: data
+  })
+}
+export function del (data) {
+  return request({
+    url: '/sysrole/del.json',
+    data: data
+  })
+}
