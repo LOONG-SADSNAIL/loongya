@@ -63,8 +63,8 @@
               style="width: 100%;">
               <el-table-column
                 class="edit-class"
-                width="80"
-                fixed="left"
+                width="100"
+                fixed="right"
                 align="center">
                 <template slot="header">
                   操作
@@ -72,6 +72,7 @@
                 <template slot-scope="scope">
                   <sysUserEdit
                     :row="scope.row"
+                    @getList="getList"
                   />
                 </template>
               </el-table-column>
@@ -116,7 +117,7 @@
 <script>
 import { list } from '@/api/system/sysuser'
 import OrganTreeList from '@/views/system/sysbaseorgan/components/organTreeList'
-import SysUserEdit from './sysUserEidt'
+import SysUserEdit from './edit/sysUserEidt'
 import AddUser from './edit/add'
 export default {
   name: 'SysUserList',

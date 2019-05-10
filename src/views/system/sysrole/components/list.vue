@@ -61,7 +61,7 @@
               <el-table-column
                 class="edit-class"
                 width="80"
-                fixed="left"
+                fixed="right"
                 align="center">
                 <template slot="header">
                   操作
@@ -70,6 +70,7 @@
                   <!-- ==============todo 4===============-->
                   <SysRoleEdit
                     :row="scope.row"
+                    @getList="getList"
                   />
                 </template>
               </el-table-column>

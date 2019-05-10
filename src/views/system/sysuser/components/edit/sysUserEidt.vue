@@ -19,7 +19,7 @@
         <svg-icon  icon-class="delete"/>
       </el-button>
     </el-tooltip>
-    <add-role
+    <add-user
       :dialogVisible="dialogFormVisible"
       :readonly="readonly"
       :row="rowin"
@@ -30,12 +30,12 @@
 </template>
 
 <script>
-import AddRole from './add'
-import { del } from '@/api/system/sysrole'
+import AddUser from './add'
+import { del } from '@/api/system/sysuser'
 export default {
-  name: 'SysRoleEdit',
+  name: 'SysUserEdit',
   components: {
-    AddRole
+    AddUser
   },
   props: {
     row: {

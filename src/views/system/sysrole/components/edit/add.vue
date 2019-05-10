@@ -4,31 +4,49 @@
       :visible.sync="dialogVisible"
       :before-close="handleClose"
       :title="readonly ? '查看' : formData.id ? '编辑' : '新增'"
-      width="800px"
+      center
+      modal
+      :modal-append-to-body="loading"
       @open="handleOpen">
-      <el-form ref="ruleForm" :model="formData" :rules="rules" size="mini" label-position="right" label-width="90px">
+      <el-form ref="formData" :model="formData" :rules="rules" size="mini" label-position="right" label-width="110px">
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="用户名" prop="name">
-              <el-input v-model.trim="formData.username" :readonly="readonly" placeholder="用户名" @keyup.enter.native="onSubmit"/>
+            <el-form-item label="角色名称" prop="rolename">
+              <el-input v-model.trim="formData.rolename" :readonly="readonly" placeholder="请输入角色名称"/>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="用户名" prop="name">
-              <el-input v-model.trim="formData.username" :readonly="readonly" placeholder="用户名" @keyup.enter.native="onSubmit"/>
+            <el-form-item label="是否可编辑" prop="menuedit">
+              <el-select v-model="formData.menuedit" placeholder="请选择是否可编辑">
+                <el-option
+                  v-for="item in menuedit"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
-          <el-form-item>
-            <el-button size="small" :loading="loading" type="primary" @click="onSubmit">保存</el-button>
-          </el-form-item>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="角色说明" prop="description">
+              <el-input v-model.trim="formData.description" :readonly="readonly" placeholder="请输入角色说明"/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item>
+          <el-button size="small" :loading="loading" type="primary" @click="onSubmit">保存</el-button>
+        </el-form-item>
       </el-form>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import { edit } from '@/api/system/sysrole'
 export default {
+  name: 'SysRoleAdd',
   components: {
   },
   props: {
@@ -51,34 +69,68 @@ export default {
     return {
       loading: false,
       formData: {
-        username: ''
+        id: '',
+        rolename: '',
+        menuedit: '',
+        description: ''
       },
       rules: {
-        username: [{ required: true, trigger: 'blur', message: '用户名不能为空' }]
-      }
+        rolename: [{ required: true, trigger: 'blur', message: '角色名不能为空' }],
+        menuedit: [{ required: true, trigger: 'blur', message: '是否可编辑不能为空' }]
+
+      },
+      menuedit: [{
+        value: '0',
+        label: '只查询'
+      }, {
+        value: '1',
+        label: '可编辑'
+      }, {
+        value: '2',
+        label: '全部权限'
+      }]
     }
   },
   computed: {
   },
   mounted () {
   },
+  created () {
+  },
   methods: {
     handleClose () {
       console.log('关闭')
-      this.$emit('closeDialog', 'model')
+      this.$emit('closeDialog')
     },
     handleOpen () {
       console.log('开启')
-      this.formData.username = this.row.username
+      this.formData = this.row
       this.$nextTick(() => {
         this.$refs['formData'].clearValidate()
       })
     },
     onSubmit () {
-      this.$refs['ruleForm'].validate((valid) => {
+      this.$refs['formData'].validate((valid) => {
         if (valid) {
           this.loading = true
-          this.loading = false
+          edit(this.formData).then(res => {
+            this.loading = false
+            if (res.errcode === 0) {
+              this.$emit('getList')
+              this.handleClose()
+              this.$message({
+                showClose: true,
+                message: res.errmsg,
+                type: 'success'
+              })
+            } else {
+              this.$message({
+                showClose: true,
+                message: res.errmsg,
+                type: 'error'
+              })
+            }
+          })
         } else {
           return false
         }
@@ -89,30 +141,4 @@ export default {
 </script>
 
 <style scoped>
-  .el-select, .el-date-editor, .el-cascader {
-    width: 100%;
-  }
-  .avatar-uploader >>> .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader >>> .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 60px;
-    height: 60px;
-    line-height: 60px;
-    text-align: center;
-  }
-  .avatar {
-    width: 60px;
-    height: 60px;
-    display: block;
-  }
 </style>
