@@ -1,15 +1,15 @@
 import Home from '../../views/index/Home'
-import SysRoleIndex from '../../views/tj/user/index'
+import TjUserIndex from '../../views/tj/user/index'
 
 export const RouterMapSysrole = {
-  path: '/tjuser',
+  path: '/user/list',
   component: Home,
   hidden: true,
-  redirect: '/tjuserindex',
+  redirect: '/tjuserlist',
   children: [
     {
-      path: '/sysroleindex',
-      component: SysRoleIndex,
+      path: '/tjuserlist',
+      component: TjUserIndex,
       name: 'tjuser',
       meta: { title: '用户管理' }
     }

@@ -11,29 +11,30 @@
       <el-form ref="formData" :model="formData" :rules="rules" size="mini" label-position="right" label-width="90px">
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="菜单名称" prop="menuname">
-              <el-input v-model.trim="formData.menuname" :readonly="readonly" placeholder="请输入菜单名称"/>
+            <el-form-item label="小区名称" prop="villagename">
+              <el-autocomplete
+                class="autoCompleteClass"
+                v-model="villageName"
+                :fetch-suggestions="querySearch"
+                placeholder="请输入小区名称"
+                @select="handleSelect"
+              ></el-autocomplete>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="菜单id" prop="menuid">
-              <el-input v-model.trim="formData.menuid" :readonly="readonly" placeholder="请输入菜单id"/>
+          <!--<el-col :span="12">
+            <el-form-item label=苑撞 prop="upperno">
+              <el-select v-model="formData.upperno" placeholder="请选择苑撞">
+                <el-option
+                  v-for="item in menuList"
+                  :key="item.menuid"
+                  :label="item.menuname"
+                  :value="item.menuid">
+                </el-option>
+              </el-select>
             </el-form-item>
-          </el-col>
+          </el-col>-->
         </el-row>
         <el-row :gutter="20">
-            <el-col :span="12">
-              <el-form-item label="父级菜单id" prop="upperno">
-                <el-select v-model="formData.upperno" placeholder="请选择">
-                  <el-option
-                    v-for="item in menuList"
-                    :key="item.menuid"
-                    :label="item.menuname"
-                    :value="item.menuid">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-          </el-col>
           <el-col :span="12">
             <el-form-item label="url" prop="url">
               <el-input v-model.trim="formData.url" :readonly="readonly" placeholder="请输入url"/>
@@ -48,19 +49,12 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="菜单图标" prop="icon">
-              <el-select v-model="formData.icon" :readonly="readonly" placeholder="请选择">
-                <el-option
-                  v-for="item in dictList"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.code">
-                </el-option>
-              </el-select>
+              <el-input v-model.trim="formData.icon" :readonly="readonly" placeholder="请输入菜单图标"/>
             </el-form-item>
           </el-col>
         </el-row>
           <el-form-item>
-            <el-button size="small" :loading="loading" type="primary" @click="onSubmit">保存</el-button>
+            <el-button :loading="loading" type="primary" @click="onSubmit">保存</el-button>
           </el-form-item>
       </el-form>
     </el-dialog>
@@ -68,10 +62,10 @@
 </template>
 
 <script>
-import { edit, treeList } from '@/api/system/sysmenu'
-import { treeList as dictTreeList } from '@/api/system/sysdict'
+import { edit } from '@/api/system/sysmenu'
+import { list } from '@/api/hovillage/hovillage'
 export default {
-  name: 'SysMenu',
+  name: 'tjuser',
   components: {
   },
   props: {
@@ -85,7 +79,7 @@ export default {
     },
     row: {
       type: Object,
-      default: function () {
+      default () {
         return {}
       }
     }
@@ -93,11 +87,12 @@ export default {
   data () {
     return {
       loading: false,
-      menuList: [],
-      dictList: [],
+      villageName: '',
+      organno: localStorage.getItem('organno'),
+      restaurants: [],
       formData: {
         id: 0,
-        menuname: '',
+        villagename: '',
         menuid: '',
         upperno: '',
         url: '',
@@ -105,13 +100,17 @@ export default {
         icon: ''
       },
       rules: {
-        menuname: [{ required: true, trigger: 'blur', message: '菜单名不能为空' }],
-        menuid: [{ required: true, trigger: 'blur', message: '菜单id不能为空' }],
-        icon: [{ required: true, trigger: 'blur', message: '菜单图标不能为空' }]
+        villagename: [{ required: true, trigger: 'blur', message: '小区不能为空' }],
+        menuid: [{ required: true, trigger: 'blur', message: '苑撞不能为空' }],
+        icon: [{ required: true, trigger: 'blur', message: '单元室不能为空' }]
       }
     }
   },
   computed: {
+    svgs () {
+      const files = require.context('@/icons/svg', false, /\.svg$/).keys()
+      return files
+    }
   },
   mounted () {
   },
@@ -125,11 +124,21 @@ export default {
     handleOpen () {
       console.log('开启')
       this.formData = this.row
-      this.getMenuList()
-      this.getDictList()
-      this.$nextTick(() => {
-        this.$refs['formData'].clearValidate()
+    },
+    querySearch (queryString, cb) {
+      this.restaurants = []
+      list({ villageName: queryString, organno: this.currentno }).then(res => {
+        if (res.errcode === 0) {
+          res.data.tableData.forEach(e => {
+            this.restaurants.push({ value: e.name, id: e.id })
+          })
+        }
+        cb(this.restaurants)
       })
+    },
+    handleSelect (item) {
+      console.log(item)
+      this.formData.id = item.id
     },
     onSubmit () {
       this.$refs['formData'].validate((valid) => {
@@ -155,24 +164,6 @@ export default {
           })
         } else {
           return false
-        }
-      })
-    },
-    getMenuList () {
-      treeList({ menuid: 'M' }).then(res => {
-        if (res.errcode === 0) {
-          res.data.unshift({
-            menuid: 'M',
-            menuname: '顶级'
-          })
-          this.menuList = res.data
-        }
-      })
-    },
-    getDictList () {
-      dictTreeList({ pid: 69 }).then(res => {
-        if (res.errcode === 0) {
-          this.dictList = res.data
         }
       })
     }
