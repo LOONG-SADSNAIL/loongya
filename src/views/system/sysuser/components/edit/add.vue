@@ -115,7 +115,6 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-
           <el-col v-if="!row.id && isShow" :span="12">
             <el-form-item label="归属机构" prop="organno">
               <el-autocomplete

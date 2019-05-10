@@ -13,7 +13,7 @@
           <div class="homeMainRowColRightTable">
             <el-row class="homeMainTableSearch">
             <el-col :span="2">
-              <el-button class="buttonaddclass" size="mini" type="primary" @click="handleAdd">新增</el-button>
+              <el-button v-if="menuedit === 'true'" class="buttonaddclass" size="mini" type="primary" @click="handleAdd">新增</el-button>
             </el-col>
               <!--==================================列表查询===========start===================================== -->
               <el-col :span="18">
@@ -63,7 +63,7 @@
               style="width: 100%;">
               <el-table-column
                 class="edit-class"
-                width="100"
+                width="150"
                 fixed="right"
                 align="center">
                 <template slot="header">
@@ -129,6 +129,7 @@ export default {
   data () {
     return {
       dialogFormVisible: false,
+      menuedit: this.$store.state.menuedit,
       checkList: [],
       formInline: {
         username: '',

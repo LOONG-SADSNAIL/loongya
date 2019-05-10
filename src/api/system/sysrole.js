@@ -18,3 +18,21 @@ export function del (data) {
     data: data
   })
 }
+export function bindRole (data) {
+  return request({
+    url: '/sysrole/bindRole.json',
+    data: data
+  })
+}
+export function rolebindmenu (data) {
+  return request({
+    url: '/sysrole/rolebindmenu.json',
+    data: data
+  })
+}
+export function getRoleId (data) {
+  return request({
+    url: '/sysrole/getRoleId.json',
+    data: data
+  })
+}
