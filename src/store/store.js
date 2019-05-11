@@ -9,6 +9,8 @@ const store = new Vuex.Store({
     token: getToken(),
     username: localStorage.getItem('username') || '',
     rolename: localStorage.getItem('rolename') || '',
+    menuedit: localStorage.getItem('menuedit') || '0',
+    passwordVisible: false,
     organname: localStorage.getItem('organname') || '',
     organno: localStorage.getItem('organno') || '', // 当前用户机构编号
     headimg: localStorage.getItem('headimg') || '',
@@ -47,6 +49,16 @@ const store = new Vuex.Store({
     },
     SET_ROLE_NAME: (state, roleName) => {
       localStorage.setItem('rolename', roleName)
+    },
+    SET_PASSWORD_VISIBLE: (state, passwordVisible) => {
+      state.passwordVisible = passwordVisible
+    },
+    SET_ROLE_MENU_EDIT: (state, menuedit) => {
+      if (menuedit === '0') {
+        localStorage.setItem('menuedit', 'false')
+      } else {
+        localStorage.setItem('menuedit', 'true')
+      }
     },
     SET_HEAD_IMG: (state, headImg) => {
       localStorage.setItem('headimg', headImg)
@@ -87,6 +99,7 @@ const store = new Vuex.Store({
           commit('SET_TOKEN', response.data.id)
           commit('SET_USER_NAME', response.data.username)
           commit('SET_ROLE_NAME', response.data.rolename)
+          commit('SET_ROLE_MENU_EDIT', response.data.menuedit)
           commit('SET_ORGAN_NAME', response.data.organname)
           commit('SET_ORGAN_NO', response.data.organno)
           commit('SET_HEAD_IMG', response.data.headImg | '')
@@ -123,6 +136,8 @@ const store = new Vuex.Store({
           commit('SET_ROLES', [])
           commit('SET_USERINFO', {})
           commit('SET_USER_NAME', '')
+          commit('SET_ROLE_NAME', '')
+          commit('SET_ROLE_MENU_EDIT', '')
           commit('SET_ORGAN_NAME', '')
           commit('SET_ORGAN_NO', '')
           commit('SET_HEAD_IMG', '')
@@ -186,6 +201,9 @@ const store = new Vuex.Store({
     },
     setPathLength ({ commit }, index) {
       commit('SET_PATH_LENGTH', index)
+    },
+    setPasswordVisible ({ commit }, passwordVisible) {
+      commit('SET_PASSWORD_VISIBLE', passwordVisible)
     }
   }
 })

@@ -26,7 +26,6 @@
             <el-dropdown-item command="safelayout" divided>安全退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-
       </div>
     </div>
   </el-header>
@@ -69,6 +68,7 @@ export default {
       // this.$message('click on item ' + command)
       if (command === 'userinfo') {
       } else if (command === 'changepass') {
+        this.$store.dispatch('setPasswordVisible', true)
       } else if (command === 'safelayout') {
         this.$store.dispatch('LogOut').then(res => {
           if (res.errcode === 0) {

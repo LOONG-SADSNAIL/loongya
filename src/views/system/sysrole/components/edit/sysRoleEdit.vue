@@ -1,10 +1,21 @@
 <template>
   <div>
+    <el-tooltip class="item" effect="dark" content="角色关联菜单" placement="top-start">
+      <el-button
+        class="tableButtonClass"
+        v-if="menuedit === 'true'"
+        @click="handleRoleMenu"
+        size="medium"
+        type="text">
+        <svg-icon  icon-class="roleMenu"/>
+      </el-button>
+    </el-tooltip>
     <el-tooltip class="item" effect="dark" content="修改" placement="top-start">
       <el-button
         class="tableButtonClass"
+        v-if="menuedit === 'true'"
         @click="handleUpdate"
-        size="mini"
+        size="medium"
         type="text">
         <svg-icon  icon-class="update"/>
       </el-button>
@@ -13,7 +24,8 @@
       <el-button
         :loading="loading"
         class="tableButtonClass"
-        size="mini"
+        v-if="menuedit === 'true'"
+        size="medium"
         @click="handleDelete"
         type="text">
         <svg-icon  icon-class="delete"/>
@@ -26,16 +38,23 @@
       @closeDialog="closeDialog"
       @getList="getList"
     />
+    <role-menu
+      :dialogVisible="dialogRoleMenuVisible"
+      :row="rowin"
+      @closeDialog="closeDialog"
+    />
   </div>
 </template>
 
 <script>
 import AddRole from './add'
+import RoleMenu from './roleMenu'
 import { del } from '@/api/system/sysrole'
 export default {
   name: 'SysRoleEdit',
   components: {
-    AddRole
+    AddRole,
+    RoleMenu
   },
   props: {
     row: {
@@ -48,6 +67,8 @@ export default {
       loading: false,
       readonly: false,
       dialogFormVisible: false,
+      dialogRoleMenuVisible: false,
+      menuedit: this.$store.state.menuedit,
       rowin: {}
     }
   },
@@ -60,6 +81,10 @@ export default {
   methods: {
     handleUpdate () {
       this.dialogFormVisible = true
+      this.rowin = this.row
+    },
+    handleRoleMenu () {
+      this.dialogRoleMenuVisible = true
       this.rowin = this.row
     },
     handleDelete () {
@@ -99,6 +124,7 @@ export default {
     },
     closeDialog () {
       this.dialogFormVisible = false
+      this.dialogRoleMenuVisible = false
     },
     getList () {
       this.$emit('getList')

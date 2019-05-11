@@ -3,8 +3,9 @@
     <el-tooltip class="item" effect="dark" content="修改" placement="top-start">
       <el-button
         class="tableButtonClass"
+        v-if="menuedit === 'true'"
         @click="handleUpdate"
-        size="mini"
+        size="medium"
         type="text">
         <svg-icon  icon-class="update"/>
       </el-button>
@@ -13,7 +14,8 @@
       <el-button
         :loading="loading"
         class="tableButtonClass"
-        size="mini"
+        v-if="menuedit === 'true'"
+        size="medium"
         @click="handleDelete"
         type="text">
         <svg-icon  icon-class="delete"/>
@@ -48,6 +50,7 @@ export default {
       loading: false,
       readonly: false,
       dialogFormVisible: false,
+      menuedit: this.$store.state.menuedit,
       rowin: {}
     }
   },

@@ -25,3 +25,16 @@ export function treeList (data) {
     data: data
   })
 }
+export function treeAllList (data) {
+  return request({
+    url: '/sysmenu/treeAllList.json',
+    data: data
+  })
+}
+
+export function getMenuListByRoleId (data) {
+  return request({
+    url: '/sysmenu/getMenuListByRoleId.json',
+    data: data
+  })
+}

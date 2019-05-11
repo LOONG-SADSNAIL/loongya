@@ -126,7 +126,7 @@
 </template>
 
 <script>
-import { list } from '@/api/tjuser/tjuser'
+import { list } from '@/api/tj/tj'
 import OrganTreeList from '@/views/system/sysbaseorgan/components/organTreeList'
 import TjUserEdit from './edit/userEidt'
 import AddUser from './edit/add'

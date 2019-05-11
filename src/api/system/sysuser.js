@@ -18,6 +18,18 @@ export function edit (data) {
     data: data
   })
 }
+export function repeatpassword (data) {
+  return request({
+    url: '/sysuser/repeatpassword.json',
+    data: data
+  })
+}
+export function updatepassword (data) {
+  return request({
+    url: '/sysuser/updatepassword.json',
+    data: data
+  })
+}
 export function del (data) {
   return request({
     url: '/sysuser/del.json',
