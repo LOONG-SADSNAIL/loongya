@@ -9,6 +9,13 @@ import sysbaseorgan from './modules/sysbaseorgan'
 import sysdict from './modules/sysdict'
 import sysmenu from './modules/sysmenu'
 import sysnotice from './modules/sysnotice'
+import hwterminalinfo from './modules/hw/hwterminalinfo'
+import dotlocation from './modules/hw/dotlocation'
+import hwpassageinfo from './modules/hw/hwpassageinfo'
+import nrgoodsinfo from './modules/nr/nrgoodsinfo'
+import wyservice from './modules/wy/wyservice'
+import hwrubbishdeliveryinfo from './modules/hw/hwrubbishdeliveryinfo'
+import hovillage from './modules/ho/hovillage'
 
 Vue.use(Router)
 
@@ -21,7 +28,14 @@ export const constantRouterMap = [
   sysbaseorgan,
   sysdict,
   sysmenu,
-  sysnotice
+  sysnotice,
+  hwterminalinfo,
+  dotlocation,
+  hwpassageinfo,
+  nrgoodsinfo,
+  wyservice,
+  hwrubbishdeliveryinfo,
+  hovillage
 ]
 
 export default new Router({

@@ -5,6 +5,11 @@ function resolve (dir) {
 
 module.exports = {
   publicPath: 'easylinkwebadmin',
+  configureWebpack: {
+    externals: {
+      'BMap': 'BMap'
+    }
+  },
   chainWebpack: config => {
     config.module
       .rule('svg')

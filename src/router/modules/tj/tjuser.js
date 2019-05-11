@@ -1,5 +1,5 @@
-import Home from '../../views/index/Home'
-import SysRoleIndex from '../../views/tj/user/index'
+import Home from '../../../views/index/Home'
+import SysRoleIndex from '../../../views/tj/user/index'
 
 export const RouterMapSysrole = {
   path: '/tjuser',
