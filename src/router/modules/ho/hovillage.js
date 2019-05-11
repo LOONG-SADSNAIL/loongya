@@ -1,5 +1,5 @@
 import Home from '../../../views/index/Home'
-import hovillageIndex from '../../../views/ho/hovillage/index'
+import HoVillageIndex from '../../../views/ho/hovillage/index'
 
 export const RouterMapHoVillage = {
   path: '/hovillage',
@@ -9,7 +9,7 @@ export const RouterMapHoVillage = {
   children: [
     {
       path: '/hovillageindex',
-      component: hovillageIndex,
+      component: HoVillageIndex,
       name: 'hovillage',
       meta: { title: '小区管理' }
     }

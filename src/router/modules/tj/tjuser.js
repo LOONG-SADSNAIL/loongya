@@ -1,8 +1,8 @@
-import Home from '../../views/index/Home'
-import tjUserIndex from '../../views/tj/tj/index'
+import Home from '../../../views/index/Home'
+import tjUserIndex from '../../../views/tj/tjuser/index'
 
-export const RouterMapSysrole = {
-  path: '/tj',
+export const RouterMapTjUser = {
+  path: '/tjuser',
   component: Home,
   hidden: true,
   redirect: '/tjuserindex',
@@ -15,4 +15,4 @@ export const RouterMapSysrole = {
     }
   ]
 }
-export default RouterMapSysrole
+export default RouterMapTjUser

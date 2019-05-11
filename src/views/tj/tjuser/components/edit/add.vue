@@ -63,7 +63,7 @@
 
 <script>
 import { edit } from '@/api/system/sysmenu'
-import { list } from '@/api/hovillage/hovillage'
+import { list } from '@/api/ho/hovillage'
 export default {
   name: 'tjuser',
   components: {

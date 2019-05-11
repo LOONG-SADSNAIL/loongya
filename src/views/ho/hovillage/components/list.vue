@@ -1,7 +1,7 @@
 <template>
   <div class="homeMainContent">
     <div class="iboxTitle">
-      用户管理
+      小区管理
     </div>
     <el-row class="homeMainRow">
       <el-col class="homeMainRowColLeft" :span="4">
@@ -11,18 +11,21 @@
       </el-col>
       <el-col class="homeMainRowColRight" :span="20">
           <div class="homeMainRowColRightTable">
-            <el-row class="homeMainTableSearch">
-            <el-col :span="2">
-              <el-button v-if="menuedit === 'true'" class="buttonaddclass" size="mini" type="primary" @click="handleAdd">新增</el-button>
-            </el-col>
+            <el-row>
+              <el-col :span="2">
+                <el-button class="buttonaddclass" size="mini" type="primary" @click="addUser">新增用户</el-button>
+              </el-col>
               <!--==================================列表查询===========start===================================== -->
               <el-col :span="18">
                 <el-form :inline="true" :model="formInline" class="homeMainRowRightForm">
                   <el-form-item>
-                    <el-input  size="mini" v-model="formInline.username" placeholder="请输入用户姓名"></el-input>
+                    <el-input v-model="formInline.villageName" placeholder="请输入小区名字"></el-input>
                   </el-form-item>
                   <el-form-item>
-                    <el-button size="mini" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
+                    <el-input v-model="formInline.address" placeholder="请输入用户地址"></el-input>
+                  </el-form-item>
+                  <el-form-item>
+                    <el-button type="primary" @click="onSubmit">查询</el-button>
                   </el-form-item>
                 </el-form>
               </el-col>
@@ -63,17 +66,11 @@
               style="width: 100%;">
               <el-table-column
                 class="edit-class"
-                width="150"
+                width="180"
                 fixed="right"
                 align="center">
                 <template slot="header">
                   操作
-                </template>
-                <template slot-scope="scope">
-                  <sysUserEdit
-                    :row="scope.row"
-                    @getList="getList"
-                  />
                 </template>
               </el-table-column>
               <el-table-column
@@ -107,29 +104,20 @@
           </div>
       </el-col>
     </el-row>
-    <AddUser
-      :dialog-visible="dialogFormVisible"
-      @closeDialog="closeDialog"
-    />
   </div>
 </template>
 
 <script>
-import { list } from '@/api/system/sysuser'
+import { list } from '@/api/ho/hovillage'
 import OrganTreeList from '@/views/system/sysbaseorgan/components/organTreeList'
-import SysUserEdit from './edit/sysUserEidt'
-import AddUser from './edit/add'
 export default {
-  name: 'SysUserList',
+  name: 'HoVillageList',
   components: {
-    OrganTreeList,
-    SysUserEdit,
-    AddUser
+    OrganTreeList
   },
   data () {
     return {
       dialogFormVisible: false,
-      menuedit: this.$store.state.menuedit,
       checkList: [],
       formInline: {
         username: '',
@@ -138,7 +126,8 @@ export default {
         orderby: 'organno',
         asc: 'ascending',
         total: 0,
-        organno: '001'
+        organno: '001',
+        userorganno: localStorage.getItem('organno')
       },
       loading: false,
       showTableHeader: [{}], // 列表头部实际显示数据
@@ -152,7 +141,7 @@ export default {
   computed: {
   },
   mounted () {
-    // this.getList()
+    this.getList()
   },
   methods: {
     getList (page) { // 列表获取
@@ -179,8 +168,8 @@ export default {
     onSubmit () { // 查询提交
       this.getList()
     },
-    handleAdd () {
-      console.log('新增')
+    addUser () {
+      console.log('新增用户')
       this.dialogFormVisible = true
     },
     handleShowHeader () { // 列表头部显示处理
