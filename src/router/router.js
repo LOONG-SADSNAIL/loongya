@@ -19,6 +19,7 @@ import hwrubbishdeliveryinfo from './modules/hw/hwrubbishdeliveryinfo'
 import hovillage from './modules/ho/hovillage'
 import hwrepairinfo from './modules/hw/hwrepairinfo'
 import hwrecoverypriceinfo from './modules/hw/hwrecoverypriceinfo'
+import hohouse from './modules/ho/hohouse'
 
 Vue.use(Router)
 
@@ -41,7 +42,8 @@ export const constantRouterMap = [
   hwrubbishdeliveryinfo,
   hovillage,
   hwrepairinfo,
-  hwrecoverypriceinfo
+  hwrecoverypriceinfo,
+  hohouse
 ]
 
 export default new Router({
