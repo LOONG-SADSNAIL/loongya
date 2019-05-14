@@ -33,6 +33,14 @@ import tjquestions from './modules/tj/tjquestions'
 import nrbooks from './modules/nr/nrbooks'
 import tjfeedback from './modules/tj/tjfeedback'
 import hwrecoverywait from './modules/hw/hwrecoverywait'
+import tjincomerecharge from './modules/tj/tjincomerecharge'
+import tjwithdrawdetail from './modules/tj/tjwithdrawdetail'
+import tjuseraccountrecharge from './modules/tj/tjuseraccountrecharge'
+import hwkhsljtdxx from './modules/hw/hwkhsljtdxx'
+import hwtakegoodsinfo from './modules/hw/hwtakegoodsinfo'
+import hwgoodsreceive from './modules/hw/hwgoodsreceive'
+import nrbuspayinfo from './modules/nr/nrbuspayinfo'
+import hwreplenishmentinfo from './modules/hw/hwreplenishmentinfo'
 
 Vue.use(Router)
 
@@ -69,7 +77,15 @@ export const constantRouterMap = [
   tjquestions,
   nrbooks,
   tjfeedback,
-  hwrecoverywait
+  hwrecoverywait,
+  tjincomerecharge,
+  tjwithdrawdetail,
+  tjuseraccountrecharge,
+  hwkhsljtdxx,
+  hwtakegoodsinfo,
+  hwgoodsreceive,
+  nrbuspayinfo,
+  hwreplenishmentinfo
 ]
 
 export default new Router({
