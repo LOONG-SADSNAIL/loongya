@@ -86,6 +86,7 @@
                 v-for="header in showTableHeader"
                 :key="header.prop"
                 :prop="header.prop"
+                :width="header.width"
                 sortable
                 resizable
                 show-overflow-tooltip

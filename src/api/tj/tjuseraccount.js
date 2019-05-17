@@ -2,19 +2,19 @@ import request from '../../plugins/axios'
 
 export function list (data) {
   return request({
-    url: '/tjuseraccountrecharge/list.json',
+    url: '/tjuseraccount/list.json',
     data: data
   })
 }
 export function edit (data) {
   return request({
-    url: '/tjuseraccountrecharge/edit.json',
+    url: '/tjuseraccount/edit.json',
     data: data
   })
 }
 export function del (data) {
   return request({
-    url: '/tjuseraccountrecharge/del.json',
+    url: '/tjuseraccount/del.json',
     data: data
   })
 }

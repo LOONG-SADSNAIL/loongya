@@ -6,16 +6,10 @@
       title="角色关联菜单"
       center
       modal
+      width="60%"
       :modal-append-to-body="loading"
       @open="handleOpen">
       <el-form ref="formData" size="mini" label-position="right" label-width="110px">
-        <el-row :gutter="20">
-          <el-col :span="24">
-            <el-form-item>
-              <el-button size="small" :loading="loading" type="primary" @click="onSubmit">保存</el-button>
-            </el-form-item>
-          </el-col>
-        </el-row>
         <el-row :gutter="20">
           <el-col :span="24">
             <el-tree
@@ -31,7 +25,7 @@
             </el-tree>
           </el-col>
         </el-row>
-        <el-row :gutter="20">
+        <el-row class="buttonaddclass" :gutter="20">
           <el-col :span="24">
             <el-form-item>
               <el-button size="small" :loading="loading" type="primary" @click="onSubmit">保存</el-button>
@@ -142,4 +136,6 @@ export default {
 </script>
 
 <style scoped>
+  .from-wrapper {
+  }
 </style>

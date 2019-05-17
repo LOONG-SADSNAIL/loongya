@@ -61,4 +61,11 @@ export default {
 }
 </script>
 <style>
+  .el-tree-node__children>div{
+    float:left;
+  }
+  .el-tree-node__content {
+    width:150px !important;
+    margin-top: 5px;
+  }
 </style>
