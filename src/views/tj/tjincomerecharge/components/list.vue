@@ -67,7 +67,7 @@
                 操作
               </template>
               <template slot-scope="scope">
-                <sysUserEdit
+                <TjIncomeRechargeEdit
                   :row="scope.row"
                   @getList="getList"
                 />
@@ -105,22 +105,18 @@
         </div>
       </el-col>
     </el-row>
-    <AddUser
-      :dialog-visible="dialogFormVisible"
-      @closeDialog="closeDialog"
-    />
   </div>
 </template>
 
 <script>
 import { list } from '@/api/tj/tjincomerecharge'
 import OrganTreeList from '@/views/system/sysbaseorgan/components/organTreeList'
-import SysUserEdit from './edit/sysUserEidt'
+import TjIncomeRechargeEdit from './edit/tjIncomeRechargeEdit'
 export default {
   name: 'TjIncomerechargeList',
   components: {
     OrganTreeList,
-    SysUserEdit
+    TjIncomeRechargeEdit
   },
   data () {
     return {

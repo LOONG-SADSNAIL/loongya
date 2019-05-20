@@ -3,7 +3,7 @@
     <el-tooltip class="item" effect="dark" content="修改" placement="top-start">
       <el-button
         class="tableButtonClass"
-        v-if="menuedit === 'true'"
+        v-if="menuedit === '1' || menuedit === '2'"
         @click="handleUpdate"
         size="medium"
         type="text">
@@ -14,7 +14,7 @@
       <el-button
         :loading="loading"
         class="tableButtonClass"
-        v-if="menuedit === 'true'"
+        v-if="menuedit === '2'"
         size="medium"
         @click="handleDelete"
         type="text">

@@ -1,15 +1,5 @@
 <template>
   <div>
-    <el-tooltip class="item" effect="dark" content="绑定角色" placement="top-start">
-      <el-button
-        class="tableButtonClass"
-        v-if="menuedit === 'true'"
-        @click="handleBindRole"
-        size="medium"
-        type="text">
-        <svg-icon  icon-class="bindrole"/>
-      </el-button>
-    </el-tooltip>
     <el-tooltip class="item" effect="dark" content="修改" placement="top-start">
       <el-button
         class="tableButtonClass"
@@ -49,23 +39,16 @@
       @closeDialog="closeDialog"
       @getList="getList"
     />
-    <bind-role
-      :dialogVisible="dialogBindRole"
-      :row="rowin"
-      @closeDialog="closeDialog"
-    />
   </div>
 </template>
 
 <script>
 import AddUser from './add'
-import BindRole from './bindrole'
 import { del, repeatpassword } from '@/api/system/sysuser'
 export default {
-  name: 'SysUserEdit',
+  name: 'HwPassageInfoEdit',
   components: {
-    AddUser,
-    BindRole
+    AddUser
   },
   props: {
     row: {

@@ -3,7 +3,7 @@
     <el-tooltip class="item" effect="dark" content="绑定角色" placement="top-start">
       <el-button
         class="tableButtonClass"
-        v-if="menuedit === 'true'"
+        v-if="menuedit === '1' || menuedit === '2'"
         @click="handleBindRole"
         size="medium"
         type="text">
@@ -13,7 +13,7 @@
     <el-tooltip class="item" effect="dark" content="修改" placement="top-start">
       <el-button
         class="tableButtonClass"
-        v-if="menuedit === 'true'"
+        v-if="menuedit === '1' || menuedit === '2'"
         @click="handleUpdate"
         size="medium"
         type="text">
@@ -24,7 +24,7 @@
       <el-button
         :loading="loading"
         class="tableButtonClass"
-        v-if="menuedit === 'true'"
+        v-if="menuedit === '2'"
         size="medium"
         @click="handleDelete"
         type="text">
@@ -35,7 +35,7 @@
       <el-button
         :loading="loading"
         class="tableButtonClass"
-        v-if="menuedit === 'true'"
+        v-if="menuedit === '1' || menuedit === '2'"
         size="medium"
         @click="handleRepeatPassword"
         type="text">
@@ -84,6 +84,7 @@ export default {
     }
   },
   created () {
+    console.log(this.menuedit)
   },
   computed: {
   },

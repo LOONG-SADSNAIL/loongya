@@ -54,11 +54,7 @@ const store = new Vuex.Store({
       state.passwordVisible = passwordVisible
     },
     SET_ROLE_MENU_EDIT: (state, menuedit) => {
-      if (menuedit === '0') {
-        localStorage.setItem('menuedit', 'false')
-      } else {
-        localStorage.setItem('menuedit', 'true')
-      }
+      localStorage.setItem('menuedit', menuedit)
     },
     SET_HEAD_IMG: (state, headImg) => {
       localStorage.setItem('headimg', headImg)
