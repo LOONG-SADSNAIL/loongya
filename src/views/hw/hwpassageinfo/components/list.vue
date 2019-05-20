@@ -27,81 +27,48 @@
           </el-row>
           <!--==================================列表头部选择器===========end===================================== -->
           <!-- ============================列表start=================rgba(0, 0, 0, 0.2)==========================-->
-          <el-table
-            class="homeMainRightTable"
-            v-loading="loading"
-            element-loading-text="拼命加载中"
-            element-loading-spinner="el-icon-loading"
-            element-loading-background="rgba(0, 0, 0, 0.2)"
-            border
-            fit
-            :row-class-name="tableRowClassName"
-            ref="singleTable"
-            :data="tableData"
-            @sort-change="sortChange"
-            :default-sort = "{prop: 'terminalno', order: 'asccending'}"
-            style="width: 100%;">
-            <el-table-column type="expand">
-              <template slot-scope="props">
-                <el-table
-                  :data="props.row.goodslist"
-                  style="width: 100%;">
-                  <el-table-column
-                    label="商品名称"
-                    width="150"
-                    prop="goodsname">
-                  </el-table-column>
-                  <el-table-column
-                    label="统计"
-                    prop="payflag">
-                    <template slot-scope="scope">
-                      <el-progress
-                        :text-inside="true"
-                        :stroke-width="18"
-                        v-if="parseFloat(scope.row.payflag)>=50"
-                        color="green"
-                        :percentage="parseFloat(scope.row.payflag)">
-                      </el-progress>
-                      <el-progress
-                        :text-inside="true"
-                        :stroke-width="18"
-                        v-if="parseFloat(scope.row.payflag)<50&&parseFloat(scope.row.payflag)>=30"
-                        color="blue"
-                        :percentage="parseFloat(scope.row.payflag)">
-                      </el-progress>
-                      <el-progress
-                        :text-inside="true"
-                        :stroke-width="18"
-                        v-if="parseFloat(scope.row.payflag)<30"
-                        color="red"
-                        :percentage="parseFloat(scope.row.payflag)">
-                      </el-progress>
-                    </template>
-                  </el-table-column>
-                </el-table>
-              </template>
-            </el-table-column>
-            <el-table-column
-              type="index"
-              width="150"
-              label="序号">
-            </el-table-column>
-            <el-table-column
-              sortable
-              label="终端号"
-              prop="terminalno">
-            </el-table-column>
-            <el-table-column
-              sortable
-              label="终端名称"
-              prop="tername">
-            </el-table-column>
-            <el-table-column
-              label="终端地址"
-              sortable
-              prop="address">
-            </el-table-column>
-          </el-table>
+          <table class="passagetableclass"
+                 v-loading="loading"
+                 element-loading-text="拼命加载中"
+                 element-loading-spinner="el-icon-loading"
+                 element-loading-background="rgba(0, 0, 0, 0.2)">
+            <thead class="passagetableclasshead">
+            <th style="width:12%">序号</th>
+            <th style="width:22%">终端号</th>
+            <th style="width:22%">终端名称</th>
+            <th style="width:22%">终端地址</th>
+            <th style="width:22%">操作</th>
+            </thead>
+            <tbody class="passagetableclassbody">
+            <tr v-for="(item, index) in tableData" :key="item.terminalno">
+              <td colspan="5" class="passagetableclassbodytd" :class="index%2===0?'colorone':'colortwo'">
+                <table class="passagetableclass">
+                  <tr class="passagetableclassbodyChild">
+                    <td style="width:12%">{{ index+1 }}</td>
+                    <td style="width:22%">{{item.terminalno}}</td>
+                    <td style="width:22%">{{item.tername}}</td>
+                    <td style="width:22%">{{item.address}}</td>
+                    <td style="width:22%">查看详情</td>
+                  </tr>
+                  <tr  class="goodslistclass">
+                    <td style="width:12%;border-left: 1px solid #EBEEF5;border-right: 1px solid #EBEEF5;">商品统计</td>
+                    <td colspan="4" style="text-align: left;width: 88%">
+                      <div style="width:25%" class="divgoodslistclass" v-for="child in item.goodslist" :key="child.goodsname" >
+                        {{child.goodsname}}:
+                        <div>
+                          <el-progress :text-inside="true" :stroke-width="18" v-if="parseInt(child.payflag) >= 50" :percentage="parseInt(child.payflag)" color="green"></el-progress>
+                          <el-progress :text-inside="true" :stroke-width="18" v-if="parseInt(child.payflag) >= 20 && parseInt(child.payflag) < 50" :percentage="parseInt(child.payflag)" color="#c75d03"></el-progress>
+                          <el-progress :text-inside="true" :stroke-width="18" v-if="parseInt(child.payflag) < 20 && parseInt(child.payflag) > 0" :percentage="parseInt(child.payflag)" color="red"></el-progress>
+                          <el-progress :text-inside="true" :stroke-width="18" v-if="parseInt(child.payflag) == 0" :percentage="0" color="red"></el-progress>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            </tbody>
+          </table>
           <!-- ============================列表 end===========================================-->
           <!-- ============================分页 start===========================================-->
           <el-pagination
@@ -136,7 +103,7 @@ export default {
         username: '',
         rows: 10,
         page: 1,
-        orderby: 'terminalno',
+        orderby: 'passageno',
         asc: 'asccending',
         total: 0,
         organno: '001'
@@ -204,4 +171,59 @@ export default {
 }
 </script>
 <style>
+  table{ border-collapse: collapse;}
+  .passagetableclass {
+    width:100%;
+  }
+  .passagetableclasshead {
+    width:100%;
+  }
+  .passagetableclasshead th {
+    height: 43px;
+    margin:0px;
+    border: 1px solid #EBEEF5
+  }
+  .passagetableclassbodyChild {
+    text-align:center;
+    width:100%;
+    height:50px;
+  }
+  .passagetableclassbodyChild td{
+    border-left: 1px solid #ded6d6;
+    border-bottom:  1px solid #EBEEF5
+
+  }
+  .passagetableclassbody{
+    text-align:center;
+  }
+  .passagetableclassbody>tr{
+    height: 87px;
+    width:100%;
+  }
+  .passagetableclassbodytd {
+    border-bottom: 1px solid #EBEEF5
+  }
+  .goodslistclass {
+    width:100%;
+  }
+  .divgoodslistclass{
+    float: left;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+   .divgoodslistclass .el-progress-bar__outer{
+    border-radius: 0px ;
+  }
+   .divgoodslistclass .el-progress-bar__inner{
+    border-radius: 0px ;
+  }
+  .el-progress-bar__outer {
+    background-color: #9c9c9e !important;
+  }
+  .colorone {
+    background-color: #fdf5e6;
+  }
+  .colorTwo {
+    background-color: #409EFF;
+  }
 </style>
