@@ -16,7 +16,10 @@
             <el-col :span="18">
               <el-form :inline="true" :model="formInline" class="homeMainRowRightForm">
                 <el-form-item>
-                  <el-input  size="mini" v-model="formInline.username" placeholder="请输入用户姓名"></el-input>
+                  <el-input  size="mini" v-model="formInline.terminalno" placeholder="请输入终端号"></el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-input  size="mini" v-model="formInline.tername" placeholder="请输入终端名称"></el-input>
                 </el-form-item>
                 <el-form-item>
                   <el-button size="mini" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
@@ -100,7 +103,8 @@ export default {
       dialogFormVisible: false,
       menuedit: this.$store.state.menuedit,
       formInline: {
-        username: '',
+        terminalno: '',
+        tername: '',
         rows: 10,
         page: 1,
         orderby: 'passageno',
@@ -218,7 +222,7 @@ export default {
     border-radius: 0px ;
   }
   .el-progress-bar__outer {
-    background-color: #9c9c9e !important;
+    background-color: #d0d0de !important;
   }
   .colorone {
     background-color: #fdf5e6;
