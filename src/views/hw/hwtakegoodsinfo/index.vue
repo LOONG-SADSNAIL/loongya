@@ -7,7 +7,7 @@
 <script>
 import list from './components/list'
 export default {
-  name: 'HwTakeGoodsInfo',
+  name: 'HwTakeGoodsInfoIndex',
   components: {
     list
   },

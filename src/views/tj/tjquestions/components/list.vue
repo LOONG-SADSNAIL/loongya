@@ -1,61 +1,148 @@
 <template>
   <div class="homeMainContent">
     <div class="iboxTitle">
-      网点定位管理
+      <h5>题库管理</h5>
     </div>
     <el-row class="homeMainRow">
-      <el-col class="homeMainRowColLeft" :span="4">
-        <OrganTreeList
-          @getOrganno="getOrganno"
-        />
-      </el-col>
-      <el-col class="homeMainRowColLeft" :span="3">
-        <el-row>
-          <el-col :span="24">
-            <div class="grid-content bg-purple-dark" style="padding-left: 20px;">
-              <el-table
-                :data="hwterminalList"
-                @row-click="rowClick"
-                style="width: 100%;height: 100%;"
-                :row-class-name="tableRowClassName">
-                <el-table-column
-                  prop="tername"
-                  label="设备名称">
-                </el-table-column>
-              </el-table>
-            </div>
-          </el-col>
-        </el-row>
-      </el-col>
-      <el-col class="homeMainRowColRight" :span="17">
+      <el-col class="homeMainRowColRight" :span="24">
         <div class="homeMainRowColRightTable">
-          <!-- ============================百度地图=================start==========================-->
-          <div id="map">
+            <el-row class="homeMainTableSearch">
+            <el-col :span="2">
+              <el-button v-if="menuedit === '1' || menuedit === '2'" class="buttonaddclass" size="mini" type="primary" @click="handleAdd">新增</el-button>
+            </el-col>
+              <!--==================================列表查询===========start===================================== -->
+              <el-col :span="18">
+                <el-form :inline="true" :model="formInline" class="homeMainRowRightForm">
+                  <el-form-item> <!-- ==============todo 2===============-->
+                    <el-input  size="mini" v-model="formInline.rolename" placeholder="请输入角色名称"></el-input>
+                  </el-form-item>
+                  <el-form-item>
+                    <el-button size="mini" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
+                  </el-form-item>
+                </el-form>
+              </el-col>
+              <!--==================================列表查询===========end===================================== -->
+              <!--==================================列表头部选择器===========start===================================== -->
+              <el-col class="homeSearchHeaderChange" :span="4">
+                <el-dropdown
+                  :hide-on-click="false"
+                  @visible-change="visibleChangeClick"
+                >
+          <span class="homeSearchHeaderChangeSvg">
+            <svg-icon icon-class="tablemenu"/>
+          </span>
+                  <el-dropdown-menu class="homeMainRightMenuChange" slot="dropdown">
+                    <el-checkbox-group v-model="checkList">
+                      <el-dropdown-item  v-for="item in tableHeader" :key="item.prop">
+                        <el-checkbox :label="item.label"></el-checkbox>
+                      </el-dropdown-item>
+                    </el-checkbox-group>
+                  </el-dropdown-menu>
+                </el-dropdown>
+              </el-col>
+            </el-row>
+            <!--==================================列表头部选择器===========end===================================== -->
+            <!-- ============================列表start===========================================-->
+            <el-table
+              class="homeMainRightTable"
+              v-loading="loading"
+              element-loading-text="拼命加载中"
+              element-loading-spinner="el-icon-loading"
+              element-loading-background="rgba(0, 0, 0, 0.2)"
+              border
+              fit
+              :row-class-name="tableRowClassName"
+              ref="singleTable"
+              :data="tableData"
+              @sort-change="sortChange"
+              :default-sort = "{prop: 'id', order: 'ascending'}"
+              style="width: 100%">
+              <!-- ==============todo 3===============-->
+              <el-table-column
+                class="edit-class"
+                width="150"
+                fixed="right"
+                align="center">
+                <template slot="header">
+                  操作
+                </template>
+                <template slot-scope="scope">
+                  <!-- ==============todo 4===============-->
+                  <TjQuestionsEdit
+                    :row="scope.row"
+                    @getList="getList"
+                  />
+                </template>
+              </el-table-column>
+<!--              <el-table-column-->
+<!--                type="index"-->
+<!--                sortable-->
+<!--                show-overflow-tooltip-->
+<!--                resizable-->
+<!--              />-->
+              <el-table-column
+                v-for="header in showTableHeader"
+                :key="header.prop"
+                :prop="header.prop"
+                :width="header.width"
+                sortable
+                resizable
+                show-overflow-tooltip
+                :label="header.label"
+              />
+            </el-table>
+            <!-- ============================列表 end===========================================-->
+            <!-- ============================分页 start===========================================-->
+            <el-pagination
+              class="page-class"
+              @size-change="pageHandleSizeChange"
+              @current-change="pageHandleCurrentChange"
+              :current-page="formInline.page"
+              :page-size="formInline.rows"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="formInline.total">
+            </el-pagination>
+            <!-- ============================分页 end===========================================-->
           </div>
-          <!-- ============================百度地图 end===========================================-->
-        </div>
       </el-col>
     </el-row>
+    <EditModel
+      :dialog-visible="dialogFormVisible"
+      @closeDialog="closeDialog"
+    />
   </div>
 </template>
 
 <script>
-import OrganTreeList from '@/views/system/sysbaseorgan/components/organTreeList'
-import { list } from '@/api/hw/hwterminalinfo'
-import BMap from 'BMap'
+// ==============todo5
+import { list } from '@/api/tj/tjquestions'
+import TjQuestionsEdit from './edit/tjQuestionsEdit'
+import EditModel from './edit/add'
 export default {
-  name: 'SysUserList',
-  components: {
-    OrganTreeList
+  name: 'TjQuestinsList',
+  components: { // ==============todo6
+    TjQuestionsEdit,
+    EditModel
   },
   data () {
     return {
-      hwterminalList: [],
-      lng: 116.404,
-      lat: 39.915,
-      name: '北京',
-      map: {},
-      point: {}
+      dialogFormVisible: false,
+      menuedit: this.$store.state.menuedit,
+      checkList: [],
+      formInline: { // ==============todo7
+        rolename: '',
+        rows: 10,
+        page: 1,
+        orderby: 'id',
+        asc: 'ascending',
+        total: 0,
+        id: ''
+      },
+      loading: false,
+      showTableHeader: [{}], // 列表头部实际显示数据
+      tableHeader: [], // 列表头部数据 从后台获取
+      tableData: [], // 列表数据 从后台获取
+      currentRow: null
     }
   },
   created () {
@@ -63,159 +150,89 @@ export default {
   computed: {
   },
   mounted () {
-    // this.createMap()
+    this.getList()
   },
   methods: {
-    createMap () {
-      // 创建Map实例
-      this.map = new BMap.Map('map')
-      // 初始化地图,设置中心点坐标和地图级别
-
-      // 添加地图类型控件
-      // map.addControl(new BMap.MapTypeControl({
-      //   mapTypes:[BMAP_NORMAL_MAP, BMAP_HYBRID_MAP, NavigationControl]
-      // }))
-      this.map.addControl(new BMap.NavigationControl())
-      this.map.addControl(new BMap.ScaleControl())
-      this.map.addControl(new BMap.OverviewMapControl())
-      /* eslint-disable */
-      this.map.addControl(new BMap.MapTypeControl({
-        mapTypes: [BMAP_NORMAL_MAP, BMAP_HYBRID_MAP]
-      }))
-      /* eslint-enable */
-      // 开启鼠标滚轮缩放
-      this.map.enableScrollWheelZoom(true)
-      this.point = new BMap.Point(this.lng, this.lat)
-      this.map.centerAndZoom(this.point, 15)
-      // 设置地图显示的城市 此项是必须设置的
-      this.map.setCurrentCity(this.name)
-      var marker = new BMap.Marker(this.point) // 创建标注
-      if (this.name !== '') {
-        marker.setLabel(this.setLabelStyle(this.name))
+    getList (page) { // 列表获取
+      this.loading = true
+      if (page) {
+        this.formInline.page = page
+      } else {
+        this.formInline.page = 1
       }
-      this.map.clearOverlays()
-      this.map.addOverlay(marker) // 将标注添加到地图中
-      // marker.addEventListener('click', function () {
-      //   alert('您点击了标注')
-      // })
-      // marker.enableDragging()
-      // marker.addEventListener('dragend', function (e) {
-      //   alert('当前位置：' + e.point.lng + ', ' + e.point.lat)
-      // })
-    },
-    setLabelStyle (content) {
-      // 左偏移  右偏移
-      var offsetSize = new BMap.Size(-19, -46)
-      var labelStyle = {
-        color: '#fff',
-        backgroundColor: '#333333',
-        border: '0',
-        fontSize: '14px',
-        width: '150px',
-        textAlign: 'center',
-        opacity: '0.6',
-        verticalAlign: 'center',
-        borderRadius: '3px',
-        whiteSpace: 'normal',
-        wordWrap: 'break-word',
-        padding: '7px'
-      }
-      // 用于设置样式
-      var spanA = "<span class='angle'><span>"
-      var label = new BMap.Label(content + spanA, {
-        offset: offsetSize
-      })
-      label.setStyle(labelStyle)
-      return label
-    },
-    getOrganno (organno) {
-      this.getList(organno)
-    },
-    getList (organo) {
-      list({ organno: organo }).then(res => {
+      list(this.formInline).then(res => {
+        this.loading = false
         if (res.errcode === 0) {
-          this.hwterminalList = res.data.tableData
-          if (this.hwterminalList.length > 0) {
-            const info = this.hwterminalList[0]
-            this.name = info.tername
-            this.lng = info.longitude
-            this.lat = info.latitude
-            this.createMap()
-            var points = [] // 添加海量点数据
-            this.hwterminalList.forEach(e => {
-              var point = new BMap.Point(e.longitude, e.latitude)
-              point.name = e.tername
-              points.push(point)
-            })
-            this.setPoint(points, 14)
-          }
+          this.tableHeader = res.data.tableHeader
+          this.tableData = res.data.tableData
+          this.formInline.total = parseInt(res.data.total)
+          this.handleShowHeader()
         }
       })
     },
-    setPoint (points, level) {
-      this.map.enableScrollWheelZoom()
-      this.map.centerAndZoom(new BMap.Point(points[0].lng, points[0].lat), level)
-      this.map.clearOverlays()
-      /* eslint-disable */
-      var options = {
-        size: BMAP_POINT_SIZE_BIGGER,    // BMAP_POINT_SIZE_SMALL
-        shape: BMAP_POINT_SHAPE_STAR,
-        color: '#D84C29'
+    onSubmit () { // 查询提交
+      this.formInline.id = '' // ==============todo9
+      this.getList()
+    },
+    handleAdd () {
+      console.log('新增')
+      this.dialogFormVisible = true
+    },
+    handleShowHeader () { // 列表头部显示处理
+      let showHeaders = []
+      if (this.checkList.length > 0) {
+        showHeaders = this.tableHeader.filter(e => this.checkList.indexOf(e.label) >= 0)
+      } else {
+        showHeaders = this.tableHeader.filter(e => e.isShow)
+        showHeaders.forEach(e => {
+          this.checkList.push(e.label)
+        })
       }
-      /* eslint-enable */
-      var pointCollection = new BMap.PointCollection(points, options) // 初始化PointCollection
-      pointCollection.addEventListener('mouseover', function (e) { // 监听点击事件
-        var p = e.point
-        var point = new BMap.Point(e.point.lng, e.point.lat)
-        var opts = {
-          width: 100, // 信息窗口宽度
-          height: 20, // 信息窗口高度
-          enableMessage: false// 设置允许信息窗发送短息
-        }
-        var infowindow = new BMap.InfoWindow(p.name, opts)
-        this.map.openInfoWindow(infowindow, point)
-      })
-      this.map.addOverlay(pointCollection) // 添加Overlay
+      this.showTableHeader = showHeaders
     },
-    tableRowClassName ({ row, rowIndex }) {
+    visibleChangeClick () { // 列表头部选择器
+      this.showTableHeader = this.tableHeader.filter(e => this.checkList.indexOf(e.label) >= 0)
+    },
+    sortChange ({ column, prop, order }) { // 排序显示
+      this.formInline.orderby = prop
+      this.formInline.asc = order
+      this.getList()
+    },
+    pageHandleSizeChange (val) { // 分页 每页大小修改
+      this.formInline.rows = val
+      this.getList()
+    },
+    pageHandleCurrentChange (val) { // 当前页修改
+      this.formInline.page = val
+      this.getList(val)
+    },
+    closeDialog () {
+      this.dialogFormVisible = false
+    },
+    tableRowClassName ({ row, rowIndex }) { // 列表样式显示
       if (rowIndex === 1) {
         return 'warning-row'
       } else if (rowIndex === 3) {
         return 'success-row'
       }
       return ''
-    },
-    rowClick (row, column, event) {
-      this.name = row.tername
-      this.lng = row.longitude
-      this.lat = row.latitude
-      this.createMap()
     }
-
   }
 }
 </script>
 <style>
-  #map {
-    min-height: 100%;
+  .sysUserList {
+    height: 100%;
+    width: 97%;
+    padding-left:20px;
+    padding-right: 20px;
+    margin-bottom: 30px;
   }
-  .el-table .warning-row {
-    background: oldlace;
+  .sysUserList .el-row {
+    height: 38px;
+    width: 100%;
   }
-
-  .el-table .success-row {
-    background: #f0f9eb;
-  }
-  .angle{
-    display: inline-block;
-    width: 0px;
-    height: 0px;
-    position: absolute;
-    bottom:-60px;
-    border: 14px solid;
-    left: 15px;
-    bottom: -25px;
-    opacity: 0.8;
-    border-color: #333333 transparent transparent transparent;
+  .page-class {
+    margin-bottom:30px;
   }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="homeMainContent">
     <div class="iboxTitle">
-      用户管理
+      banner管理
     </div>
     <el-row class="homeMainRow">
       <el-col class="homeMainRowColLeft" :span="4">
@@ -13,13 +13,13 @@
           <div class="homeMainRowColRightTable">
             <el-row class="homeMainTableSearch">
             <el-col :span="2">
-              <el-button v-if="menuedit === 'true'" class="buttonaddclass" size="mini" type="primary" @click="handleAdd">新增</el-button>
+              <el-button v-if="menuedit === '1'||menuedit === '2'" class="buttonaddclass" size="mini" type="primary" @click="handleAdd">新增</el-button>
             </el-col>
               <!--==================================列表查询===========start===================================== -->
               <el-col :span="18">
                 <el-form :inline="true" :model="formInline" class="homeMainRowRightForm">
                   <el-form-item>
-                    <el-input  size="mini" v-model="formInline.username" placeholder="请输入用户姓名"></el-input>
+                    <el-input  size="mini" v-model="formInline.name" placeholder="请输入banner名称"></el-input>
                   </el-form-item>
                   <el-form-item>
                     <el-button size="mini" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
@@ -70,7 +70,7 @@
                   操作
                 </template>
                 <template slot-scope="scope">
-                  <sysUserEdit
+                  <NrBannerEdit
                     :row="scope.row"
                     @getList="getList"
                   />
@@ -108,7 +108,7 @@
           </div>
       </el-col>
     </el-row>
-    <AddUser
+    <AddNrBanner
       :dialog-visible="dialogFormVisible"
       @closeDialog="closeDialog"
     />
@@ -116,16 +116,16 @@
 </template>
 
 <script>
-import { list } from '@/api/system/sysuser'
+import { list } from '@/api/nr/nrbanner'
 import OrganTreeList from '@/views/system/sysbaseorgan/components/organTreeList'
-import SysUserEdit from './edit/sysUserEidt'
-import AddUser from './edit/add'
+import NrBannerEdit from './edit/nrBannerEdit'
+import AddNrBanner from './edit/add'
 export default {
-  name: 'SysUserList',
+  name: 'NrBannerList',
   components: {
     OrganTreeList,
-    SysUserEdit,
-    AddUser
+    NrBannerEdit,
+    AddNrBanner
   },
   data () {
     return {
@@ -133,7 +133,7 @@ export default {
       menuedit: this.$store.state.menuedit,
       checkList: [],
       formInline: {
-        username: '',
+        name: '',
         rows: 10,
         page: 1,
         orderby: 'organno',

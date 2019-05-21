@@ -21,7 +21,7 @@ import hwrepairinfo from './modules/hw/hwrepairinfo'
 import hwrecoverypriceinfo from './modules/hw/hwrecoverypriceinfo'
 import hohouse from './modules/ho/hohouse'
 import hwrfidcoderelevance from './modules/hw/hwrfidcoderelevance'
-import hwadmanageterrelevance from './modules/hw/hwadmanageterrelevance'
+import tjadmanage from './modules/tj/tjadmanage'
 import tjversion from './modules/tj/tjversion'
 import tjusersms from './modules/tj/tjsms'
 import tjuserrole from './modules/tj/tjuserrole'
@@ -66,7 +66,7 @@ export const constantRouterMap = [
   hwrecoverypriceinfo,
   hohouse,
   hwrfidcoderelevance,
-  hwadmanageterrelevance,
+  tjadmanage,
   tjversion,
   tjusersms,
   tjuserrole,

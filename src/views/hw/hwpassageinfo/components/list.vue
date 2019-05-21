@@ -105,7 +105,7 @@ export default {
       formInline: {
         terminalno: '',
         tername: '',
-        rows: 10,
+        rows: 100,
         page: 1,
         orderby: 'passageno',
         asc: 'asccending',

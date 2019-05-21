@@ -1,7 +1,7 @@
 <template>
   <div class="homeMainContent">
     <div class="iboxTitle">
-      用户管理
+      物品领用管理
     </div>
     <el-row class="homeMainRow">
       <el-col class="homeMainRowColLeft" :span="4">
@@ -13,7 +13,7 @@
           <div class="homeMainRowColRightTable">
             <el-row class="homeMainTableSearch">
             <el-col :span="2">
-              <el-button v-if="menuedit === 'true'" class="buttonaddclass" size="mini" type="primary" @click="handleAdd">新增</el-button>
+              <el-button v-if="menuedit === '1'||menuedit === '2'" class="buttonaddclass" size="mini" type="primary" @click="handleAdd">新增</el-button>
             </el-col>
               <!--==================================列表查询===========start===================================== -->
               <el-col :span="18">
@@ -70,7 +70,7 @@
                   操作
                 </template>
                 <template slot-scope="scope">
-                  <sysUserEdit
+                  <HwTakeGoodsInfoEidt
                     :row="scope.row"
                     @getList="getList"
                   />
@@ -108,7 +108,7 @@
           </div>
       </el-col>
     </el-row>
-    <AddUser
+    <AddHwTakeGoodsInfo
       :dialog-visible="dialogFormVisible"
       @closeDialog="closeDialog"
     />
@@ -116,16 +116,16 @@
 </template>
 
 <script>
-import { list } from '@/api/system/sysuser'
+import { list } from '@/api/hw/hwtakegoodsinfo'
 import OrganTreeList from '@/views/system/sysbaseorgan/components/organTreeList'
-import SysUserEdit from './edit/sysUserEidt'
-import AddUser from './edit/add'
+import HwTakeGoodsInfoEidt from './edit/hwTakeGoodsInfoEidt'
+import AddHwTakeGoodsInfo from './edit/add'
 export default {
-  name: 'SysUserList',
+  name: 'HwTakeGoodsInfoList',
   components: {
     OrganTreeList,
-    SysUserEdit,
-    AddUser
+    HwTakeGoodsInfoEidt,
+    AddHwTakeGoodsInfo
   },
   data () {
     return {

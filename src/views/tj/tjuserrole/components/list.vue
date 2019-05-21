@@ -1,7 +1,7 @@
 <template>
   <div class="homeMainContent">
     <div class="iboxTitle">
-      网点定位管理
+      管理员定位管理
     </div>
     <el-row class="homeMainRow">
       <el-col class="homeMainRowColLeft" :span="4">
@@ -19,8 +19,8 @@
                 style="width: 100%;height: 100%;"
                 :row-class-name="tableRowClassName">
                 <el-table-column
-                  prop="tername"
-                  label="设备名称">
+                  prop="username"
+                  label="人员名称">
                 </el-table-column>
               </el-table>
             </div>
@@ -41,10 +41,10 @@
 
 <script>
 import OrganTreeList from '@/views/system/sysbaseorgan/components/organTreeList'
-import { list } from '@/api/hw/hwterminalinfo'
+import { list } from '@/api/tj/tjuserrole'
 import BMap from 'BMap'
 export default {
-  name: 'SysUserList',
+  name: 'TjUserRoleList',
   components: {
     OrganTreeList
   },
@@ -137,14 +137,14 @@ export default {
           this.hwterminalList = res.data.tableData
           if (this.hwterminalList.length > 0) {
             const info = this.hwterminalList[0]
-            this.name = info.tername
+            this.name = info.username
             this.lng = info.longitude
             this.lat = info.latitude
             this.createMap()
             var points = [] // 添加海量点数据
             this.hwterminalList.forEach(e => {
               var point = new BMap.Point(e.longitude, e.latitude)
-              point.name = e.tername
+              point.name = e.username
               points.push(point)
             })
             this.setPoint(points, 14)
@@ -186,7 +186,7 @@ export default {
       return ''
     },
     rowClick (row, column, event) {
-      this.name = row.tername
+      this.name = row.username
       this.lng = row.longitude
       this.lat = row.latitude
       this.createMap()

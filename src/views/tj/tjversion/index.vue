@@ -7,7 +7,7 @@
 <script>
 import list from './components/list'
 export default {
-  name: 'TjVersion',
+  name: 'TjVersionIndex',
   components: {
     list
   },

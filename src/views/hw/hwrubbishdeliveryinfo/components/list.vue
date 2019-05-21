@@ -1,7 +1,7 @@
 <template>
   <div class="homeMainContent">
     <div class="iboxTitle">
-      用户管理
+      巡检管理
     </div>
     <el-row class="homeMainRow">
       <el-col class="homeMainRowColLeft" :span="4">
@@ -10,105 +10,107 @@
         />
       </el-col>
       <el-col class="homeMainRowColRight" :span="20">
-          <div class="homeMainRowColRightTable">
-            <el-row class="homeMainTableSearch">
+        <div class="homeMainRowColRightTable">
+          <el-row class="homeMainTableSearch">
             <el-col :span="2">
-              <el-button v-if="menuedit === 'true'" class="buttonaddclass" size="mini" type="primary" @click="handleAdd">新增</el-button>
+              <el-button v-if="menuedit === '1' || menuedit === '2'" class="buttonaddclass" size="mini" type="primary" @click="handleAdd">新增</el-button>
             </el-col>
-              <!--==================================列表查询===========start===================================== -->
-              <el-col :span="18">
-                <el-form :inline="true" :model="formInline" class="homeMainRowRightForm">
-                  <el-form-item>
-                    <el-input  size="mini" v-model="formInline.username" placeholder="请输入用户姓名"></el-input>
-                  </el-form-item>
-                  <el-form-item>
-                    <el-button size="mini" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
-                  </el-form-item>
-                </el-form>
-              </el-col>
-              <!--==================================列表查询===========end===================================== -->
-              <!--==================================列表头部选择器===========start===================================== -->
-              <el-col class="homeSearchHeaderChange" :span="4">
-                <el-dropdown
-                  :hide-on-click="false"
-                  @visible-change="visibleChangeClick">
-                  <span class="homeSearchHeaderChangeSvg">
-                    <svg-icon icon-class="tablemenu"/>
-                  </span>
-                  <el-dropdown-menu class="homeMainRightMenuChange" slot="dropdown">
-                    <el-checkbox-group v-model="checkList">
-                      <el-dropdown-item  v-for="item in tableHeader" :key="item.prop">
-                        <el-checkbox :label="item.label"></el-checkbox>
-                      </el-dropdown-item>
-                    </el-checkbox-group>
-                  </el-dropdown-menu>
-                </el-dropdown>
-              </el-col>
-            </el-row>
-            <!--==================================列表头部选择器===========end===================================== -->
-            <!-- ============================列表start=================rgba(0, 0, 0, 0.2)==========================-->
-            <el-table
-              class="homeMainRightTable"
-              v-loading="loading"
-              element-loading-text="拼命加载中"
-              element-loading-spinner="el-icon-loading"
-              element-loading-background="rgba(0, 0, 0, 0.2)"
-              border
-              fit
-              :row-class-name="tableRowClassName"
-              ref="singleTable"
-              :data="tableData"
-              @sort-change="sortChange"
-              :default-sort = "{prop: 'createTime', order: 'descending'}"
-              style="width: 100%;">
-              <el-table-column
-                class="edit-class"
-                width="150"
-                fixed="right"
-                align="center">
-                <template slot="header">
-                  操作
-                </template>
-                <template slot-scope="scope">
-                  <sysUserEdit
-                    :row="scope.row"
-                    @getList="getList"
-                  />
-                </template>
-              </el-table-column>
-              <el-table-column
-                type="index"
-                sortable
-                show-overflow-tooltip
-                resizable
-              />
-              <el-table-column
-                v-for="header in showTableHeader"
-                :key="header.prop"
-                :prop="header.prop"
-                :width="header.width"
-                sortable
-                resizable
-                show-overflow-tooltip
-                :label="header.label"
-              />
-            </el-table>
-            <!-- ============================列表 end===========================================-->
-            <!-- ============================分页 start===========================================-->
-            <el-pagination
-              class="page-class"
-              @size-change="pageHandleSizeChange"
-              @current-change="pageHandleCurrentChange"
-              :current-page="formInline.page"
-              :page-size="formInline.rows"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="formInline.total">
-            </el-pagination>
-            <!-- ============================分页 end===========================================-->
-          </div>
+            <!--==================================列表查询===========start===================================== -->
+            <el-col :span="18">
+              <el-form :inline="true" :model="formInline" class="homeMainRowRightForm">
+                <el-form-item> <!-- ==============todo 2===============-->
+                  <el-input size="mini" v-model="formInline.terminalno" placeholder="请输入终端号"></el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-button size="mini" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
+                </el-form-item>
+              </el-form>
+            </el-col>
+            <!--==================================列表查询===========end===================================== -->
+            <!--==================================列表头部选择器===========start===================================== -->
+            <el-col class="homeSearchHeaderChange" :span="2">
+              <el-dropdown
+                :hide-on-click="false"
+                @visible-change="visibleChangeClick">
+                <span class="homeSearchHeaderChangeSvg">
+                  <svg-icon icon-class="tablemenu"/>
+                </span>
+                <el-dropdown-menu class="homeMainRightMenuChange" slot="dropdown">
+                  <el-checkbox-group v-model="checkList">
+                    <el-dropdown-item  v-for="item in tableHeader" :key="item.prop">
+                      <el-checkbox :label="item.label"></el-checkbox>
+                    </el-dropdown-item>
+                  </el-checkbox-group>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </el-col>
+          </el-row>
+          <!--==================================列表头部选择器===========end===================================== -->
+          <!-- ============================列表start===========================================-->
+          <el-table
+            class="homeMainRightTable"
+            v-loading="loading"
+            element-loading-text="拼命加载中"
+            element-loading-spinner="el-icon-loading"
+            element-loading-background="rgba(0, 0, 0, 0.2)"
+            border
+            fit
+            :row-class-name="tableRowClassName"
+            ref="singleTable"
+            :data="tableData"
+            @sort-change="sortChange"
+            :default-sort = "{prop: 'id', order: 'ascending'}"
+            style="width: 100%">
+            <!-- ==============todo 3===============-->
+            <el-table-column
+              class="edit-class"
+              width="150"
+              fixed="right"
+              align="center">
+              <template slot="header">
+                操作
+              </template>
+              <template slot-scope="scope">
+                <!-- ==============todo 4===============-->
+                <HwRubbishDeliveryInfoEdit
+                  :row="scope.row"
+                  @getList="getList"
+                />
+              </template>
+            </el-table-column>
+<!--              <el-table-column-->
+<!--                type="index"-->
+<!--                sortable-->
+<!--                show-overflow-tooltip-->
+<!--                resizable-->
+<!--              />-->
+            <el-table-column
+              v-for="header in showTableHeader"
+              :key="header.prop"
+              :prop="header.prop"
+              :width="header.width"
+              sortable
+              resizable
+              show-overflow-tooltip
+              :label="header.label"
+            />
+          </el-table>
+          <!-- ============================列表 end===========================================-->
+          <!-- ============================分页 start===========================================-->
+          <el-pagination
+            class="page-class"
+            @size-change="pageHandleSizeChange"
+            @current-change="pageHandleCurrentChange"
+            :current-page="formInline.page"
+            :page-size="formInline.rows"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="formInline.total">
+          </el-pagination>
+          <!-- ============================分页 end===========================================-->
+        </div>
       </el-col>
     </el-row>
-    <AddUser
+    <EditModel
       :dialog-visible="dialogFormVisible"
       @closeDialog="closeDialog"
     />
@@ -116,30 +118,32 @@
 </template>
 
 <script>
-import { list } from '@/api/system/sysuser'
+// ==============todo5
+import { list } from '@/api/hw/hwrubbishdeliveryinfo'
+import HwRubbishDeliveryInfoEdit from './edit/hwRubbishDeliveryInfoEdit'
 import OrganTreeList from '@/views/system/sysbaseorgan/components/organTreeList'
-import SysUserEdit from './edit/sysUserEidt'
-import AddUser from './edit/add'
+import EditModel from './edit/add'
 export default {
-  name: 'SysUserList',
-  components: {
+  name: 'HwRubbishDeliveryInfoList',
+  components: { // ==============todo6
     OrganTreeList,
-    SysUserEdit,
-    AddUser
+    HwRubbishDeliveryInfoEdit,
+    EditModel
   },
   data () {
     return {
       dialogFormVisible: false,
       menuedit: this.$store.state.menuedit,
       checkList: [],
-      formInline: {
-        username: '',
+      formInline: { // ==============todo7
+        terminalno: '',
         rows: 10,
         page: 1,
-        orderby: 'organno',
+        orderby: 'id',
         asc: 'ascending',
         total: 0,
-        organno: '001'
+        organno: localStorage.getItem('organno'),
+        id: ''
       },
       loading: false,
       showTableHeader: [{}], // 列表头部实际显示数据
@@ -178,6 +182,7 @@ export default {
       this.getList()
     },
     onSubmit () { // 查询提交
+      this.formInline.id = '' // ==============todo9
       this.getList()
     },
     handleAdd () {

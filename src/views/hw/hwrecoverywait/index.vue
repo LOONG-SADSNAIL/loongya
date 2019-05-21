@@ -7,7 +7,7 @@
 <script>
 import list from './components/list'
 export default {
-  name: 'HwRecoveryWait',
+  name: 'HwRecoveryWaitIndex',
   components: {
     list
   },

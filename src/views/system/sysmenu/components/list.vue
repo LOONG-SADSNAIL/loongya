@@ -14,7 +14,7 @@
         <div class="homeMainRowColRightTable">
           <el-row class="homeMainTableSearch">
             <el-col :span="2">
-              <el-button v-if="menuedit === 'true'" class="buttonaddclass" size="mini" type="primary" @click="handleAdd">新增</el-button>
+              <el-button v-if="menuedit === '1' || menuedit === '2'" class="buttonaddclass" size="mini" type="primary" @click="handleAdd">新增</el-button>
             </el-col>
             <!--==================================列表查询===========start===================================== -->
             <el-col :span="18">
